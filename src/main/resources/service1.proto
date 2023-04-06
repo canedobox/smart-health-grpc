@@ -1,0 +1,47 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.learn.sample";
+option java_outer_classname = "SampleServiceImpl";
+
+service SampleService {
+    rpc unary(UnaryRequest) returns (UnaryResponse) {}
+
+    rpc serverStream(ServerStreamRequest) returns (stream ServerStreamResponse) {}
+
+    rpc clientStream(stream ClientStreamRequest) returns (ClientStreamResponse) {}
+
+    rpc bidirectionalStream(stream BidirectionalStreamRequest) returns (stream BidirectionalStreamResponse) {}
+}
+
+message UnaryRequest {
+    string message = 1;
+}
+
+message UnaryResponse {
+    string message = 1;
+}
+
+message ServerStreamRequest {
+    string message = 1;
+}
+
+message ServerStreamResponse {
+    string message = 1;
+}
+
+message ClientStreamRequest {
+    string message = 1;
+}
+
+message ClientStreamResponse {
+    string message = 1;
+}
+
+message BidirectionalStreamRequest {
+    string message = 1;
+}
+
+message BidirectionalStreamResponse {
+    string message = 1;
+}
