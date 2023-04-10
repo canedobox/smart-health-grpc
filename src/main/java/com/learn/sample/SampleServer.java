@@ -64,9 +64,9 @@ public class SampleServer extends SampleServiceImplBase {
 			String message = "";
 
 			@Override
-			public void onNext(ClientStreamRequest value) {
-				System.out.println(value.getMessage());
-				message += value.getMessage();
+			public void onNext(ClientStreamRequest request) {
+				System.out.println(request.getMessage());
+				message += request.getMessage();
 			}
 
 			@Override
@@ -78,6 +78,7 @@ public class SampleServer extends SampleServiceImplBase {
 			public void onCompleted() {
 				ClientStreamResponse response = ClientStreamResponse.newBuilder().setMessage(message).build();
 				responseObserver.onNext(response);
+				
 				responseObserver.onCompleted();
 
 				System.out.println("--------------------");
@@ -89,15 +90,13 @@ public class SampleServer extends SampleServiceImplBase {
 	public StreamObserver<BidirectionalStreamRequest> bidirectionalStream(StreamObserver<BidirectionalStreamResponse> responseObserver) {
 		System.out.println("bidirectionalStream; Receiving request: ");
 		
-		StringBuilder message = new StringBuilder();
-		
 		return new StreamObserver<BidirectionalStreamRequest>() {
+			String message = "";
 
 			@Override
 			public void onNext(BidirectionalStreamRequest request) {
 				System.out.println(request.getMessage());
-				
-				message.append(request.getMessage());
+				message += request.getMessage();
 
 				BidirectionalStreamResponse response = BidirectionalStreamResponse.newBuilder().setMessage(message.toString()).build();
 
