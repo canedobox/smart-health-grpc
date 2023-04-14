@@ -53,22 +53,22 @@ public final class Service2Impl {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\016service2.proto\"9\n\020StepCountRequest\022\016\n\006" +
-      "userId\030\001 \001(\003\022\025\n\rnumberOfSteps\030\002 \001(\005\"&\n\021S" +
-      "tepCountResponse\022\021\n\tstepCount\030\001 \001(\005\")\n\027S" +
-      "tepCountHistoryRequest\022\016\n\006userId\030\001 \001(\003\";" +
-      "\n\030StepCountHistoryResponse\022\014\n\004date\030\001 \001(\t" +
-      "\022\021\n\tstepCount\030\002 \001(\005\",\n\027StepCountAverageR" +
-      "equest\022\021\n\tstepCount\030\001 \001(\005\"4\n\030StepCountAv" +
-      "erageResponse\022\030\n\020averageStepCount\030\001 \001(\0052" +
-      "\363\001\n\010Service2\022A\n\022incrementStepCount\022\021.Ste" +
-      "pCountRequest\032\022.StepCountResponse\"\000(\0010\001\022" +
-      "N\n\023getStepCountHistory\022\030.StepCountHistor" +
-      "yRequest\032\031.StepCountHistoryResponse\"\0000\001\022" +
-      "T\n\031calculateStepCountAverage\022\030.StepCount" +
-      "AverageRequest\032\031.StepCountAverageRespons" +
-      "e\"\000(\001B$\n\022com.learn.service2B\014Service2Imp" +
-      "lP\001b\006proto3"
+      "\n\016service2.proto\";\n\020StepCountRequest\022\020\n\010" +
+      "username\030\001 \001(\t\022\025\n\rnumberOfSteps\030\002 \001(\005\"&\n" +
+      "\021StepCountResponse\022\021\n\tstepCount\030\001 \001(\005\"+\n" +
+      "\027StepCountHistoryRequest\022\020\n\010username\030\001 \001" +
+      "(\t\";\n\030StepCountHistoryResponse\022\014\n\004date\030\001" +
+      " \001(\t\022\021\n\tstepCount\030\002 \001(\005\",\n\027StepCountAver" +
+      "ageRequest\022\021\n\tstepCount\030\001 \001(\005\"4\n\030StepCou" +
+      "ntAverageResponse\022\030\n\020averageStepCount\030\001 " +
+      "\001(\0052\363\001\n\010Service2\022A\n\022incrementStepCount\022\021" +
+      ".StepCountRequest\032\022.StepCountResponse\"\000(" +
+      "\0010\001\022N\n\023getStepCountHistory\022\030.StepCountHi" +
+      "storyRequest\032\031.StepCountHistoryResponse\"" +
+      "\0000\001\022T\n\031calculateStepCountAverage\022\030.StepC" +
+      "ountAverageRequest\032\031.StepCountAverageRes" +
+      "ponse\"\000(\001B$\n\022com.learn.service2B\014Service" +
+      "2ImplP\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -87,7 +87,7 @@ public final class Service2Impl {
     internal_static_StepCountRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_StepCountRequest_descriptor,
-        new java.lang.String[] { "UserId", "NumberOfSteps", });
+        new java.lang.String[] { "Username", "NumberOfSteps", });
     internal_static_StepCountResponse_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_StepCountResponse_fieldAccessorTable = new
@@ -99,7 +99,7 @@ public final class Service2Impl {
     internal_static_StepCountHistoryRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_StepCountHistoryRequest_descriptor,
-        new java.lang.String[] { "UserId", });
+        new java.lang.String[] { "Username", });
     internal_static_StepCountHistoryResponse_descriptor =
       getDescriptor().getMessageTypes().get(3);
     internal_static_StepCountHistoryResponse_fieldAccessorTable = new

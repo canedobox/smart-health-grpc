@@ -9,10 +9,19 @@ public interface GetUserProfileRequestOrBuilder extends
 
   /**
    * <pre>
-   * User identifier.
+   * User's username.
    * </pre>
    *
-   * <code>int64 userId = 1;</code>
+   * <code>string username = 1;</code>
    */
-  long getUserId();
+  java.lang.String getUsername();
+  /**
+   * <pre>
+   * User's username.
+   * </pre>
+   *
+   * <code>string username = 1;</code>
+   */
+  com.google.protobuf.ByteString
+      getUsernameBytes();
 }

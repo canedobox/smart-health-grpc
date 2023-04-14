@@ -13,8 +13,8 @@ service Service1 {
 }
 
 message SetUserProfileRequest {
-    // User's identifier.
-    int64 userId = 1;
+    // User's username.
+    string username = 1;
     
     // User's name.
     string name = 2;
@@ -38,8 +38,8 @@ message SetUserProfileResponse {
 }
 
 message GetUserProfileRequest {
-	// User identifier.
-    int64 userId = 1;
+	// User's username.
+    string username = 1;
 }
 
 message GetUserProfileResponse {    

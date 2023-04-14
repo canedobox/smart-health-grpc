@@ -43,20 +43,20 @@ public final class Service1Impl {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\016service1.proto\"\200\001\n\025SetUserProfileReque" +
-      "st\022\016\n\006userId\030\001 \001(\003\022\014\n\004name\030\002 \001(\t\022\016\n\006heig" +
-      "ht\030\003 \001(\001\022\016\n\006weight\030\004 \001(\001\022\025\n\rstepCountGoa" +
-      "l\030\005 \001(\005\022\022\n\nweightGoal\030\006 \001(\001\")\n\026SetUserPr" +
-      "ofileResponse\022\017\n\007message\030\001 \001(\t\"\'\n\025GetUse" +
-      "rProfileRequest\022\016\n\006userId\030\001 \001(\003\"q\n\026GetUs" +
-      "erProfileResponse\022\014\n\004name\030\001 \001(\t\022\016\n\006heigh" +
-      "t\030\002 \001(\001\022\016\n\006weight\030\003 \001(\001\022\025\n\rstepCountGoal" +
-      "\030\004 \001(\005\022\022\n\nweightGoal\030\005 \001(\0012\224\001\n\010Service1\022" +
-      "C\n\016setUserProfile\022\026.SetUserProfileReques" +
-      "t\032\027.SetUserProfileResponse\"\000\022C\n\016getUserP" +
-      "rofile\022\026.GetUserProfileRequest\032\027.GetUser" +
-      "ProfileResponse\"\000B$\n\022com.learn.service1B" +
-      "\014Service1ImplP\001b\006proto3"
+      "\n\016service1.proto\"\202\001\n\025SetUserProfileReque" +
+      "st\022\020\n\010username\030\001 \001(\t\022\014\n\004name\030\002 \001(\t\022\016\n\006he" +
+      "ight\030\003 \001(\001\022\016\n\006weight\030\004 \001(\001\022\025\n\rstepCountG" +
+      "oal\030\005 \001(\005\022\022\n\nweightGoal\030\006 \001(\001\")\n\026SetUser" +
+      "ProfileResponse\022\017\n\007message\030\001 \001(\t\")\n\025GetU" +
+      "serProfileRequest\022\020\n\010username\030\001 \001(\t\"q\n\026G" +
+      "etUserProfileResponse\022\014\n\004name\030\001 \001(\t\022\016\n\006h" +
+      "eight\030\002 \001(\001\022\016\n\006weight\030\003 \001(\001\022\025\n\rstepCount" +
+      "Goal\030\004 \001(\005\022\022\n\nweightGoal\030\005 \001(\0012\224\001\n\010Servi" +
+      "ce1\022C\n\016setUserProfile\022\026.SetUserProfileRe" +
+      "quest\032\027.SetUserProfileResponse\"\000\022C\n\016getU" +
+      "serProfile\022\026.GetUserProfileRequest\032\027.Get" +
+      "UserProfileResponse\"\000B$\n\022com.learn.servi" +
+      "ce1B\014Service1ImplP\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -75,7 +75,7 @@ public final class Service1Impl {
     internal_static_SetUserProfileRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_SetUserProfileRequest_descriptor,
-        new java.lang.String[] { "UserId", "Name", "Height", "Weight", "StepCountGoal", "WeightGoal", });
+        new java.lang.String[] { "Username", "Name", "Height", "Weight", "StepCountGoal", "WeightGoal", });
     internal_static_SetUserProfileResponse_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_SetUserProfileResponse_fieldAccessorTable = new
@@ -87,7 +87,7 @@ public final class Service1Impl {
     internal_static_GetUserProfileRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_GetUserProfileRequest_descriptor,
-        new java.lang.String[] { "UserId", });
+        new java.lang.String[] { "Username", });
     internal_static_GetUserProfileResponse_descriptor =
       getDescriptor().getMessageTypes().get(3);
     internal_static_GetUserProfileResponse_fieldAccessorTable = new

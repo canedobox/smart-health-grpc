@@ -16,7 +16,7 @@ private static final long serialVersionUID = 0L;
     super(builder);
   }
   private GetUserProfileRequest() {
-    userId_ = 0L;
+    username_ = "";
   }
 
   @java.lang.Override
@@ -43,9 +43,10 @@ private static final long serialVersionUID = 0L;
           case 0:
             done = true;
             break;
-          case 8: {
+          case 10: {
+            java.lang.String s = input.readStringRequireUtf8();
 
-            userId_ = input.readInt64();
+            username_ = s;
             break;
           }
           default: {
@@ -80,17 +81,46 @@ private static final long serialVersionUID = 0L;
             com.learn.service1.GetUserProfileRequest.class, com.learn.service1.GetUserProfileRequest.Builder.class);
   }
 
-  public static final int USERID_FIELD_NUMBER = 1;
-  private long userId_;
+  public static final int USERNAME_FIELD_NUMBER = 1;
+  private volatile java.lang.Object username_;
   /**
    * <pre>
-   * User identifier.
+   * User's username.
    * </pre>
    *
-   * <code>int64 userId = 1;</code>
+   * <code>string username = 1;</code>
    */
-  public long getUserId() {
-    return userId_;
+  public java.lang.String getUsername() {
+    java.lang.Object ref = username_;
+    if (ref instanceof java.lang.String) {
+      return (java.lang.String) ref;
+    } else {
+      com.google.protobuf.ByteString bs = 
+          (com.google.protobuf.ByteString) ref;
+      java.lang.String s = bs.toStringUtf8();
+      username_ = s;
+      return s;
+    }
+  }
+  /**
+   * <pre>
+   * User's username.
+   * </pre>
+   *
+   * <code>string username = 1;</code>
+   */
+  public com.google.protobuf.ByteString
+      getUsernameBytes() {
+    java.lang.Object ref = username_;
+    if (ref instanceof java.lang.String) {
+      com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString.copyFromUtf8(
+              (java.lang.String) ref);
+      username_ = b;
+      return b;
+    } else {
+      return (com.google.protobuf.ByteString) ref;
+    }
   }
 
   private byte memoizedIsInitialized = -1;
@@ -107,8 +137,8 @@ private static final long serialVersionUID = 0L;
   @java.lang.Override
   public void writeTo(com.google.protobuf.CodedOutputStream output)
                       throws java.io.IOException {
-    if (userId_ != 0L) {
-      output.writeInt64(1, userId_);
+    if (!getUsernameBytes().isEmpty()) {
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 1, username_);
     }
     unknownFields.writeTo(output);
   }
@@ -119,9 +149,8 @@ private static final long serialVersionUID = 0L;
     if (size != -1) return size;
 
     size = 0;
-    if (userId_ != 0L) {
-      size += com.google.protobuf.CodedOutputStream
-        .computeInt64Size(1, userId_);
+    if (!getUsernameBytes().isEmpty()) {
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, username_);
     }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
@@ -139,8 +168,8 @@ private static final long serialVersionUID = 0L;
     com.learn.service1.GetUserProfileRequest other = (com.learn.service1.GetUserProfileRequest) obj;
 
     boolean result = true;
-    result = result && (getUserId()
-        == other.getUserId());
+    result = result && getUsername()
+        .equals(other.getUsername());
     result = result && unknownFields.equals(other.unknownFields);
     return result;
   }
@@ -152,9 +181,8 @@ private static final long serialVersionUID = 0L;
     }
     int hash = 41;
     hash = (19 * hash) + getDescriptor().hashCode();
-    hash = (37 * hash) + USERID_FIELD_NUMBER;
-    hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-        getUserId());
+    hash = (37 * hash) + USERNAME_FIELD_NUMBER;
+    hash = (53 * hash) + getUsername().hashCode();
     hash = (29 * hash) + unknownFields.hashCode();
     memoizedHashCode = hash;
     return hash;
@@ -288,7 +316,7 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public Builder clear() {
       super.clear();
-      userId_ = 0L;
+      username_ = "";
 
       return this;
     }
@@ -316,7 +344,7 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public com.learn.service1.GetUserProfileRequest buildPartial() {
       com.learn.service1.GetUserProfileRequest result = new com.learn.service1.GetUserProfileRequest(this);
-      result.userId_ = userId_;
+      result.username_ = username_;
       onBuilt();
       return result;
     }
@@ -365,8 +393,9 @@ private static final long serialVersionUID = 0L;
 
     public Builder mergeFrom(com.learn.service1.GetUserProfileRequest other) {
       if (other == com.learn.service1.GetUserProfileRequest.getDefaultInstance()) return this;
-      if (other.getUserId() != 0L) {
-        setUserId(other.getUserId());
+      if (!other.getUsername().isEmpty()) {
+        username_ = other.username_;
+        onChanged();
       }
       this.mergeUnknownFields(other.unknownFields);
       onChanged();
@@ -397,40 +426,91 @@ private static final long serialVersionUID = 0L;
       return this;
     }
 
-    private long userId_ ;
+    private java.lang.Object username_ = "";
     /**
      * <pre>
-     * User identifier.
+     * User's username.
      * </pre>
      *
-     * <code>int64 userId = 1;</code>
+     * <code>string username = 1;</code>
      */
-    public long getUserId() {
-      return userId_;
+    public java.lang.String getUsername() {
+      java.lang.Object ref = username_;
+      if (!(ref instanceof java.lang.String)) {
+        com.google.protobuf.ByteString bs =
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        username_ = s;
+        return s;
+      } else {
+        return (java.lang.String) ref;
+      }
     }
     /**
      * <pre>
-     * User identifier.
+     * User's username.
      * </pre>
      *
-     * <code>int64 userId = 1;</code>
+     * <code>string username = 1;</code>
      */
-    public Builder setUserId(long value) {
-      
-      userId_ = value;
+    public com.google.protobuf.ByteString
+        getUsernameBytes() {
+      java.lang.Object ref = username_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        username_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+    /**
+     * <pre>
+     * User's username.
+     * </pre>
+     *
+     * <code>string username = 1;</code>
+     */
+    public Builder setUsername(
+        java.lang.String value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  
+      username_ = value;
       onChanged();
       return this;
     }
     /**
      * <pre>
-     * User identifier.
+     * User's username.
      * </pre>
      *
-     * <code>int64 userId = 1;</code>
+     * <code>string username = 1;</code>
      */
-    public Builder clearUserId() {
+    public Builder clearUsername() {
       
-      userId_ = 0L;
+      username_ = getDefaultInstance().getUsername();
+      onChanged();
+      return this;
+    }
+    /**
+     * <pre>
+     * User's username.
+     * </pre>
+     *
+     * <code>string username = 1;</code>
+     */
+    public Builder setUsernameBytes(
+        com.google.protobuf.ByteString value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+      
+      username_ = value;
       onChanged();
       return this;
     }

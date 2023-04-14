@@ -16,8 +16,8 @@ service Service2 {
 }
 
 message StepCountRequest {
-    // User's identifier.
-    int64 userId = 1;
+    // User's username.
+    string username = 1;
     
     // Number of steps to increment for the current date.
     int32 numberOfSteps = 2;
@@ -29,8 +29,8 @@ message StepCountResponse {
 }
 
 message StepCountHistoryRequest {
-    // User's identifier.
-    int64 userId = 1;
+    // User's username.
+    string username = 1;
 }
 
 message StepCountHistoryResponse {
