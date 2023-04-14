@@ -1,0 +1,52 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.learn.service2";
+option java_outer_classname = "Service2Impl";
+
+service Service2 {
+	// Increment a user's step count (current date) by X step(s).
+    rpc incrementStepCount(stream StepCountRequest) returns (stream StepCountResponse) {}
+    
+    // Retrieves a user's step count history.
+    rpc getStepCountHistory(StepCountHistoryRequest) returns (stream StepCountHistoryResponse) {}
+    
+    // Calculate step count average.
+    rpc calculateStepCountAverage(stream StepCountAverageRequest) returns (StepCountAverageResponse) {}
+}
+
+message StepCountRequest {
+    // User's identifier.
+    int64 userId = 1;
+    
+    // Number of steps to increment for the current date.
+    int32 numberOfSteps = 2;
+}
+
+message StepCountResponse {
+    // Total number of steps for the current date.
+    int32 stepCount = 1;
+}
+
+message StepCountHistoryRequest {
+    // User's identifier.
+    int64 userId = 1;
+}
+
+message StepCountHistoryResponse {
+	// History date.
+	string date = 1;
+	
+    // Total number of steps.
+    int32 stepCount = 2;
+}
+
+message StepCountAverageRequest {
+    // Step count for a day.
+    int32 stepCount = 1;
+}
+
+message StepCountAverageResponse {	
+    // Average step count.
+    int32 averageStepCount = 1;
+}

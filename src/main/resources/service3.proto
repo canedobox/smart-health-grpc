@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.learn.service3";
+option java_outer_classname = "Service3Impl";
+
+service Service3 {
+	// Calculate BMI (Body Mass Index).
+    rpc calculateBMI(BMIRequest) returns (BMIResponse) {}
+    
+	// Create a weight loss weekly plan.
+    rpc createWeightLossWeeklyPlan(WeightLossWeeklyPlanRequest) returns (stream WeightLossWeeklyPlanResponse) {}
+}
+
+message BMIRequest {
+    // Height in centimetre.
+    double height = 1;
+    
+    // Weight in kilogram.
+    double weight = 2;
+}
+
+message BMIResponse {
+    // Body Mass Index.
+    double BMI = 1;
+}
+
+message WeightLossWeeklyPlanRequest {
+    // Current weight in kilogram.
+    double currentWeight = 1;
+    
+    // Weight goal in kilogram.
+    double weightGoal = 2;
+    
+    // Number of weeks for the plan.
+    int32 numberOfWeeks = 3;
+}
+
+message WeightLossWeeklyPlanResponse {
+	// Week number for the plan.
+    int32 weekNumber = 1;
+    
+	// Weight loss goal for the week in kilogram.
+    double weightLossGoal = 2;
+}

@@ -1,0 +1,60 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.learn.service1";
+option java_outer_classname = "Service1Impl";
+
+service Service1 {
+	// Sets or updates a user's profile.
+    rpc setUserProfile(SetUserProfileRequest) returns (SetUserProfileResponse) {}
+    
+    // Retrieves a user's profile.
+    rpc getUserProfile(GetUserProfileRequest) returns (GetUserProfileResponse) {}
+}
+
+message SetUserProfileRequest {
+    // User's identifier.
+    int64 userId = 1;
+    
+    // User's name.
+    string name = 2;
+    
+    // User's height in centimetre.
+    double height = 3;
+    
+    // User's weight in kilogram.
+    double weight = 4;
+    
+    // User's daily step count goal.
+    int32 stepCountGoal = 5;
+    
+    // User's weight goal in kilogram.
+    double weightGoal = 6;
+}
+
+message SetUserProfileResponse {
+	// Response message.
+    string message = 1;
+}
+
+message GetUserProfileRequest {
+	// User identifier.
+    int64 userId = 1;
+}
+
+message GetUserProfileResponse {    
+    // User's name.
+    string name = 1;
+    
+    // User's height in centimetre.
+    double height = 2;
+    
+    // User's weight in kilogram.
+    double weight = 3;
+    
+    // User's daily step count goal.
+    int32 stepCountGoal = 4;
+    
+    // User's weight goal in kilogram.
+    double weightGoal = 5;
+}
