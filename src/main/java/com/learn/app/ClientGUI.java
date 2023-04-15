@@ -778,7 +778,7 @@ public class ClientGUI implements ActionListener {
 	 */
 	private void build() {
 		// Setting up the frame.
-		JFrame frame = new JFrame("Smart Health gRPC Application");
+		JFrame frame = new JFrame("Smart Health Distributed System");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(600, 400);
 		frame.setLocationRelativeTo(null);
