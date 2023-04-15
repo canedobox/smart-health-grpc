@@ -31,6 +31,11 @@ import com.learn.service2.StepCountHistoryRequest;
 import com.learn.service2.StepCountHistoryResponse;
 import com.learn.service2.StepCountRequest;
 import com.learn.service2.StepCountResponse;
+import com.learn.service3.BMIRequest;
+import com.learn.service3.BMIResponse;
+import com.learn.service3.Service3Grpc;
+import com.learn.service3.WeightLossWeeklyTargetRequest;
+import com.learn.service3.WeightLossWeeklyTargetResponse;
 
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
@@ -79,6 +84,17 @@ public class ClientGUI implements ActionListener {
 	private JTextField stepCount1Request, stepCount2Request, stepCount3Request, stepCount4Request, stepCount5Request;
 	// JLabel used for calculateStepCountAverage() response.
 	private JLabel averageStepCountStepCountAverageResponse, messageStepCountAverageResponse;
+	
+	/* SERVICE 3 GUI components */
+	// JTextFields used for calculateBMI() request.
+	private JTextField heightBMIRequest, weightBMIRequest;
+	// JLabel used for calculateBMI() response.
+	private JLabel bmiBMIResponse, categoryBMIResponse, messageBMIResponse;
+	
+	// JTextFields used for getWeightLossWeeklyTarget() request.
+	private JTextField currentWeightWeightLossWeeklyTargetRequest, weightGoalWeightLossWeeklyTargetRequest, numberOfWeeksWeightLossWeeklyTargetRequest;
+	// JLabel used for getWeightLossWeeklyTarget() response.
+	private JLabel weightLossWeeklyTargetWeightLossWeeklyTargetResponse, messageWeightLossWeeklyTargetResponse;
 
 	/**
 	 * Created a tab navigation menu to switch between services.
@@ -202,8 +218,8 @@ public class ClientGUI implements ActionListener {
 		container.setBorder(new EmptyBorder(new Insets(20, 20, 20, 20)));
 
 		// Add JPanels for the service methods.
-		container.add(addTitledBorder(" method1( ) ", new JPanel()));
-		container.add(addTitledBorder(" method2( ) ", new JPanel()));
+		container.add(addTitledBorder(" calculateBMI( ) ", calculateBMIPanel()));
+		container.add(addTitledBorder(" getWeightLossWeeklyTarget( ) ", getWeightLossWeeklyTargetPanel()));
 		
 		return container;
 	}
@@ -244,14 +260,14 @@ public class ClientGUI implements ActionListener {
 
 		// Height (request).
 		componentPanel = new JPanel();
-		componentPanel.add(new JLabel("Height:"));
+		componentPanel.add(new JLabel("Height (cm):"));
 		heightSetUserProfileRequest = new JTextField("180", 5);
 		componentPanel.add(heightSetUserProfileRequest);
 		container.add(componentPanel);
 
 		// Weight (request).
 		componentPanel = new JPanel();
-		componentPanel.add(new JLabel("Weight:"));
+		componentPanel.add(new JLabel("Weight (kg):"));
 		weightSetUserProfileRequest = new JTextField("100", 5);
 		componentPanel.add(weightSetUserProfileRequest);
 		container.add(componentPanel);
@@ -265,7 +281,7 @@ public class ClientGUI implements ActionListener {
 
 		// Weight Goal (request).
 		componentPanel = new JPanel();
-		componentPanel.add(new JLabel("Weight Goal:"));
+		componentPanel.add(new JLabel("Weight Goal (kg):"));
 		weightGoalSetUserProfileRequest = new JTextField("80", 5);
 		componentPanel.add(weightGoalSetUserProfileRequest);
 		container.add(componentPanel);
@@ -565,6 +581,9 @@ public class ClientGUI implements ActionListener {
 		componentPanel.add(button);
 		container.add(componentPanel);
 		
+		// Add subtitle.
+		container.add(subtitlePanel("Response:"));
+		
 		// Step Count Average (response).
 		componentPanel = new JPanel();
 		averageStepCountStepCountAverageResponse = new JLabel("");
@@ -603,13 +622,163 @@ public class ClientGUI implements ActionListener {
 		messageStepCountAverageResponse.setText("");
 	}
 	
+	/**
+	 * Create the calculateBMI method JPanel (service 3).
+	 * 
+	 * @return JPanel
+	 */
+	private JPanel calculateBMIPanel() {
+		// JPanels
+		JPanel container = new JPanel();
+		JPanel componentPanel = new JPanel();
+
+		// Set padding for the container panel.
+		container.setBorder(new EmptyBorder(new Insets(10, 20, 10, 20)));
+
+		// Set container layout to be Y_AXIS: from top to bottom.
+		BoxLayout containerLayout = new BoxLayout(container, BoxLayout.Y_AXIS);
+		container.setLayout(containerLayout);
+		
+		// Add subtitle.
+		container.add(subtitlePanel("Calculate Body Mass Index (BMI):"));
+
+		// Height (request).
+		componentPanel = new JPanel();
+		componentPanel.add(new JLabel("Height (cm):"));
+		heightBMIRequest = new JTextField("180", 10);
+		componentPanel.add(heightBMIRequest);
+		container.add(componentPanel);
+		
+		// Weight (request).
+		componentPanel = new JPanel();
+		componentPanel.add(new JLabel("Weight (kg):"));
+		weightBMIRequest = new JTextField("100", 10);
+		componentPanel.add(weightBMIRequest);
+		container.add(componentPanel);
+
+		// Calculate BMI button used to send the request.
+		componentPanel = new JPanel();
+		JButton button = new JButton("CALCULATE BMI");
+		button.setPreferredSize(new Dimension(200, 30));
+		button.addActionListener(this);
+		componentPanel.add(button);
+		container.add(componentPanel);
+		
+		// Add subtitle.
+		container.add(subtitlePanel("Response:"));
+		
+		// BMI (response).
+		componentPanel = new JPanel();
+		bmiBMIResponse = new JLabel("");
+		componentPanel.add(bmiBMIResponse);
+		container.add(componentPanel);
+
+		// Category (response).
+		componentPanel = new JPanel();
+		categoryBMIResponse = new JLabel("");
+		componentPanel.add(categoryBMIResponse);
+		container.add(componentPanel);
+		
+		// Message (response).
+		componentPanel = new JPanel();
+		messageBMIResponse = new JLabel("");
+		componentPanel.add(messageBMIResponse);
+		container.add(componentPanel);
+		
+		return container;
+	}
+	
+	/**
+	 * Create the getWeightLossWeeklyTarget method JPanel (service 3).
+	 * 
+	 * @return JPanel
+	 */
+	private JPanel getWeightLossWeeklyTargetPanel() {
+		// JPanels
+		JPanel container = new JPanel();
+		JPanel componentPanel = new JPanel();
+
+		// Set padding for the container panel.
+		container.setBorder(new EmptyBorder(new Insets(10, 20, 10, 20)));
+
+		// Set container layout to be Y_AXIS: from top to bottom.
+		BoxLayout containerLayout = new BoxLayout(container, BoxLayout.Y_AXIS);
+		container.setLayout(containerLayout);
+		
+		// Add subtitle.
+		container.add(subtitlePanel("Get a weight loss weekly target:"));
+
+		// Current weigth (request).
+		componentPanel = new JPanel();
+		componentPanel.add(new JLabel("Current Weight (kg):"));
+		currentWeightWeightLossWeeklyTargetRequest = new JTextField("100", 10);
+		componentPanel.add(currentWeightWeightLossWeeklyTargetRequest);
+		container.add(componentPanel);
+		
+		// Weight Goal (request).
+		componentPanel = new JPanel();
+		componentPanel.add(new JLabel("Weight Goal (kg):"));
+		weightGoalWeightLossWeeklyTargetRequest = new JTextField("80", 10);
+		componentPanel.add(weightGoalWeightLossWeeklyTargetRequest);
+		container.add(componentPanel);
+		
+		// Number of weeks (request).
+		componentPanel = new JPanel();
+		componentPanel.add(new JLabel("Number of weeks:"));
+		numberOfWeeksWeightLossWeeklyTargetRequest = new JTextField("10", 10);
+		componentPanel.add(numberOfWeeksWeightLossWeeklyTargetRequest);
+		container.add(componentPanel);
+
+		// Get weight loss weekly target button used to send the request.
+		componentPanel = new JPanel();
+		JButton button = new JButton("GET WEEKLY TARGET");
+		button.setPreferredSize(new Dimension(200, 30));
+		button.addActionListener(this);
+		componentPanel.add(button);
+		container.add(componentPanel);
+		
+		// Add subtitle.
+		container.add(subtitlePanel("Response:"));
+		
+		// Weight Loss Weekly Target (response).
+		componentPanel = new JPanel();
+		weightLossWeeklyTargetWeightLossWeeklyTargetResponse = new JLabel("");
+		componentPanel.add(weightLossWeeklyTargetWeightLossWeeklyTargetResponse);
+		container.add(componentPanel);
+		
+		// Message (response).
+		componentPanel = new JPanel();
+		messageWeightLossWeeklyTargetResponse = new JLabel("");
+		componentPanel.add(messageWeightLossWeeklyTargetResponse);
+		container.add(componentPanel);
+		
+		return container;
+	}
+	
+	/**
+	 * Reset fields and labels for the calculateBMI method JPanel (service 3).
+	 */
+	private void resetCalculateBMIPanel() {
+		bmiBMIResponse.setText("");
+		categoryBMIResponse.setText("");
+		messageBMIResponse.setText("");
+	}
+	
+	/**
+	 * Reset fields and labels for the getWeightLossWeeklyTarget method JPanel (service 3).
+	 */
+	private void resetGetWeightLossWeeklyTargetPanel() {
+		weightLossWeeklyTargetWeightLossWeeklyTargetResponse.setText("");
+		messageWeightLossWeeklyTargetResponse.setText("");
+	}
+	
 	
 	/**
 	 * Build the GUI.
 	 */
 	private void build() {
 		// Setting up the frame.
-		JFrame frame = new JFrame("Smart Health Application");
+		JFrame frame = new JFrame("Smart Health gRPC Application");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(600, 400);
 		frame.setLocationRelativeTo(null);
@@ -737,10 +906,10 @@ public class ClientGUI implements ActionListener {
 				else {
 					// Display user profile info.
 					nameGetUserProfileResponse.setText("Name: " + String.valueOf(response.getName()));
-					heightGetUserProfileResponse.setText("Height: " + String.valueOf(response.getHeight()));
-					weightGetUserProfileResponse.setText("Weight: " + String.valueOf(response.getWeight()));
+					heightGetUserProfileResponse.setText("Height (cm): " + String.valueOf(response.getHeight()));
+					weightGetUserProfileResponse.setText("Weight (kg): " + String.valueOf(response.getWeight()));
 					stepCountGoalGetUserProfileResponse.setText("Step Count Goal: " + String.valueOf(response.getStepCountGoal()));
-					weightGoalGetUserProfileResponse.setText("Weight Goal: " + String.valueOf(response.getWeightGoal()));
+					weightGoalGetUserProfileResponse.setText("Weight Goal (kg): " + String.valueOf(response.getWeightGoal()));
 					System.out.println("getUserProfile(); Response: " + response);
 				}
 			}
@@ -962,6 +1131,88 @@ public class ClientGUI implements ActionListener {
 				messageStepCountAverageResponse.setText(setMessageColour(true, error.getMessage()));
 				error.printStackTrace();
 			}
+		}
+		// Calculate BMI button for calculateBMI the method (Service 3).
+		else if (label.equals("CALCULATE BMI")) {
+			System.out.println("Invoking calculateBMI()...");
+			
+			// Reset calculateBMI panel.
+			resetCalculateBMIPanel();
+			
+			// Build the channel.
+			ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 50053).usePlaintext().build();
+			// Get blocking stubs.
+			Service3Grpc.Service3BlockingStub blockingStub = Service3Grpc.newBlockingStub(channel);
+
+			// Prepare the request.
+			BMIRequest request = BMIRequest.newBuilder()
+					.setHeight(Double.parseDouble(heightBMIRequest.getText()))
+					.setWeight(Double.parseDouble(weightBMIRequest.getText()))
+					.build();
+
+			// Try to send the request.
+			try {
+				// Send the request and store the response.
+				BMIResponse response = blockingStub.calculateBMI(request);
+				
+				// Print response on console.
+				System.out.println("calculateBMI(); Response: " + response);
+				
+				// Display BMI and category.
+				bmiBMIResponse.setText("BMI: " + response.getBmi());
+				categoryBMIResponse.setText("Category: " + response.getCategory());
+			}
+			// If an errors.
+			catch (StatusRuntimeException error) {
+				// Display error message.
+				messageBMIResponse.setText(setMessageColour(true, error.getMessage()));
+				error.printStackTrace();
+			}
+			
+			// Print a divider between requests.
+			System.out.println("--------------------");
+
+		}
+		// Get weight loss weekly target button for getWeightLossWeeklyTarget the method (Service 3).
+		else if (label.equals("GET WEEKLY TARGET")) {
+			System.out.println("Invoking getWeightLossWeeklyTarget()...");
+			
+			// Reset getWeightLossWeeklyTarget panel.
+			resetGetWeightLossWeeklyTargetPanel();
+			
+			// Build the channel.
+			ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 50053).usePlaintext().build();
+			// Get blocking stubs.
+			Service3Grpc.Service3BlockingStub blockingStub = Service3Grpc.newBlockingStub(channel);
+
+			// Prepare the request.
+			WeightLossWeeklyTargetRequest request = WeightLossWeeklyTargetRequest.newBuilder()
+					.setCurrentWeight(Double.parseDouble(currentWeightWeightLossWeeklyTargetRequest.getText()))
+					.setWeightGoal(Double.parseDouble(weightGoalWeightLossWeeklyTargetRequest.getText()))
+					.setNumberOfWeeks(Integer.parseInt(numberOfWeeksWeightLossWeeklyTargetRequest.getText()))
+					.build();
+
+			// Try to send the request.
+			try {
+				// Send the request and store the response.
+				WeightLossWeeklyTargetResponse response = blockingStub.getWeightLossWeeklyTarget(request);
+				
+				// Print response on console.
+				System.out.println("getWeightLossWeeklyTarget(); Response: " + response);
+				
+				// Display weight loss weekly target.
+				weightLossWeeklyTargetWeightLossWeeklyTargetResponse.setText("Weight Loss Weekly Target (kg): " + response.getWeightLossWeeklyTarget());
+			}
+			// If an errors.
+			catch (StatusRuntimeException error) {
+				// Display error message.
+				messageWeightLossWeeklyTargetResponse.setText(setMessageColour(true, error.getMessage()));
+				error.printStackTrace();
+			}
+			
+			// Print a divider between requests.
+			System.out.println("--------------------");
+
 		}
 
 	}
