@@ -6,6 +6,8 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.util.Iterator;
+import java.util.Random;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -22,10 +24,18 @@ import com.learn.service1.GetUserProfileResponse;
 import com.learn.service1.Service1Grpc;
 import com.learn.service1.SetUserProfileRequest;
 import com.learn.service1.SetUserProfileResponse;
+import com.learn.service2.Service2Grpc;
+import com.learn.service2.StepCountAverageRequest;
+import com.learn.service2.StepCountAverageResponse;
+import com.learn.service2.StepCountHistoryRequest;
+import com.learn.service2.StepCountHistoryResponse;
+import com.learn.service2.StepCountRequest;
+import com.learn.service2.StepCountResponse;
 
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.StatusRuntimeException;
+import io.grpc.stub.StreamObserver;
 
 /**
  * Creates the client user interface for the services.
@@ -53,6 +63,22 @@ public class ClientGUI implements ActionListener {
 	stepCountGoalGetUserProfileResponse, 
 	weightGoalGetUserProfileResponse,
 	messageGetUserProfileResponse;
+	
+	/* SERVICE 2 GUI components */
+	// JTextFields used for incrementStepCount() request.
+	private JTextField usernameStepCountRequest, numberOfStepsStepCountRequest;
+	// JLabel used for incrementStepCount() response.
+	private JLabel stepCountStepCountResponse, messageStepCountResponse;
+	
+	// JTextFields used for getStepCountHistory() request.
+	private JTextField usernameStepCountHistoryRequest;
+	// JLabel used for getStepCountHistory() response.
+	private JLabel stepCountHistoryResponse, messageStepCountHistoryResponse;
+	
+	// JTextFields used for calculateStepCountAverage() request.
+	private JTextField stepCount1Request, stepCount2Request, stepCount3Request, stepCount4Request, stepCount5Request;
+	// JLabel used for calculateStepCountAverage() response.
+	private JLabel averageStepCountStepCountAverageResponse, messageStepCountAverageResponse;
 
 	/**
 	 * Created a tab navigation menu to switch between services.
@@ -153,9 +179,9 @@ public class ClientGUI implements ActionListener {
 		container.setBorder(new EmptyBorder(new Insets(20, 20, 20, 20)));
 
 		// Add JPanels for the service methods.
-		container.add(addTitledBorder(" method1( ) ", new JPanel()));
-		container.add(addTitledBorder(" method2( ) ", new JPanel()));
-		container.add(addTitledBorder(" method3( ) ", new JPanel()));
+		container.add(addTitledBorder(" incrementStepCount( ) ", incrementStepCountPanel()));
+		container.add(addTitledBorder(" getStepCountHistory( ) ", getStepCountHistoryPanel()));
+		container.add(addTitledBorder(" calculateStepCountAverage( ) ", calculateStepCountAveragePanel()));
 		
 		return container;
 	}
@@ -183,7 +209,7 @@ public class ClientGUI implements ActionListener {
 	}
 
 	/**
-	 * Create the setUserProfilePanel method JPanel (service 1).
+	 * Create the setUserProfile method JPanel (service 1).
 	 * 
 	 * @return JPanel
 	 */
@@ -246,7 +272,7 @@ public class ClientGUI implements ActionListener {
 
 		// Save button used to send the request.
 		componentPanel = new JPanel();
-		JButton button = new JButton("Save");
+		JButton button = new JButton("SAVE");
 		button.setPreferredSize(new Dimension(200, 30));
 		button.addActionListener(this);
 		componentPanel.add(button);
@@ -262,7 +288,7 @@ public class ClientGUI implements ActionListener {
 	}
 	
 	/**
-	 * Create the getUserProfilePanel method JPanel (service 1).
+	 * Create the getUserProfile method JPanel (service 1).
 	 * 
 	 * @return JPanel
 	 */
@@ -290,7 +316,7 @@ public class ClientGUI implements ActionListener {
 		
 		// Search button used to send the request.
 		componentPanel = new JPanel();
-		JButton button = new JButton("Search");
+		JButton button = new JButton("SEARCH");
 		button.setPreferredSize(new Dimension(200, 30));
 		button.addActionListener(this);
 		componentPanel.add(button);
@@ -364,6 +390,221 @@ public class ClientGUI implements ActionListener {
 	}
 	
 	/**
+	 * Create the setUserProfile method JPanel (service 2).
+	 * 
+	 * @return JPanel
+	 */
+	private JPanel incrementStepCountPanel() {
+		// JPanels
+		JPanel container = new JPanel();
+		JPanel componentPanel = new JPanel();
+
+		// Set padding for the container panel.
+		container.setBorder(new EmptyBorder(new Insets(10, 20, 10, 20)));
+
+		// Set container layout to be Y_AXIS: from top to bottom.
+		BoxLayout containerLayout = new BoxLayout(container, BoxLayout.Y_AXIS);
+		container.setLayout(containerLayout);
+		
+		// Add subtitle.
+		container.add(subtitlePanel("Increment step count:"));
+
+		// Username (request).
+		componentPanel = new JPanel();
+		componentPanel.add(new JLabel("Username:"));
+		usernameStepCountRequest = new JTextField("user1", 10);
+		componentPanel.add(usernameStepCountRequest);
+		container.add(componentPanel);
+
+		// Number of steps (request).
+		componentPanel = new JPanel();
+		componentPanel.add(new JLabel("Number of Steps:"));
+		numberOfStepsStepCountRequest = new JTextField("10", 5);
+		componentPanel.add(numberOfStepsStepCountRequest);
+		container.add(componentPanel);
+
+		// Add steps button used to send the request.
+		componentPanel = new JPanel();
+		JButton button = new JButton("ADD STEPS");
+		button.setPreferredSize(new Dimension(200, 30));
+		button.addActionListener(this);
+		componentPanel.add(button);
+		container.add(componentPanel);
+		
+		// Add subtitle.
+		container.add(subtitlePanel("Response:"));
+		
+		// Step Count (response).
+		componentPanel = new JPanel();
+		stepCountStepCountResponse = new JLabel("");
+		componentPanel.add(stepCountStepCountResponse);
+		container.add(componentPanel);
+
+		// Message (response).
+		componentPanel = new JPanel();
+		messageStepCountResponse = new JLabel("");
+		componentPanel.add(messageStepCountResponse);
+		container.add(componentPanel);
+		
+		return container;
+	}
+	
+	/**
+	 * Create the getStepCountHistory method JPanel (service 2).
+	 * 
+	 * @return JPanel
+	 */
+	private JPanel getStepCountHistoryPanel() {
+		// JPanels
+		JPanel container = new JPanel();
+		JPanel componentPanel = new JPanel();
+
+		// Set padding for the container panel.
+		container.setBorder(new EmptyBorder(new Insets(10, 20, 10, 20)));
+
+		// Set container layout to be Y_AXIS: from top to bottom.
+		BoxLayout containerLayout = new BoxLayout(container, BoxLayout.Y_AXIS);
+		container.setLayout(containerLayout);
+		
+		// Add subtitle.
+		container.add(subtitlePanel("Get step count history:"));
+
+		// Username (request).
+		componentPanel = new JPanel();
+		componentPanel.add(new JLabel("Username:"));
+		usernameStepCountHistoryRequest = new JTextField("user1", 10);
+		componentPanel.add(usernameStepCountHistoryRequest);
+		container.add(componentPanel);
+
+		// Get step count history button used to send the request.
+		componentPanel = new JPanel();
+		JButton button = new JButton("GET HISTORY");
+		button.setPreferredSize(new Dimension(200, 30));
+		button.addActionListener(this);
+		componentPanel.add(button);
+		container.add(componentPanel);
+		
+		// Add subtitle.
+		container.add(subtitlePanel("Response (Date: stepCount):"));
+		
+		// Step Count History (response).
+		componentPanel = new JPanel();
+		stepCountHistoryResponse = new JLabel("");
+		componentPanel.add(stepCountHistoryResponse);
+		container.add(componentPanel);
+
+		// Message (response).
+		componentPanel = new JPanel();
+		messageStepCountHistoryResponse = new JLabel("");
+		componentPanel.add(messageStepCountHistoryResponse);
+		container.add(componentPanel);
+		
+		return container;
+	}
+	
+	/**
+	 * Create the calculateStepCountAverage method JPanel (service 2).
+	 * 
+	 * @return JPanel
+	 */
+	private JPanel calculateStepCountAveragePanel() {
+		// JPanels
+		JPanel container = new JPanel();
+		JPanel componentPanel = new JPanel();
+
+		// Set padding for the container panel.
+		container.setBorder(new EmptyBorder(new Insets(10, 20, 10, 20)));
+
+		// Set container layout to be Y_AXIS: from top to bottom.
+		BoxLayout containerLayout = new BoxLayout(container, BoxLayout.Y_AXIS);
+		container.setLayout(containerLayout);
+		
+		// Add subtitle.
+		container.add(subtitlePanel("Calculate step count average:"));
+
+		// Step Count 1 (request).
+		componentPanel = new JPanel();
+		componentPanel.add(new JLabel("1:"));
+		stepCount1Request = new JTextField("5340", 10);
+		componentPanel.add(stepCount1Request);
+		container.add(componentPanel);
+		
+		// Step Count 2 (request).
+		componentPanel = new JPanel();
+		componentPanel.add(new JLabel("2:"));
+		stepCount2Request = new JTextField("10840", 10);
+		componentPanel.add(stepCount2Request);
+		container.add(componentPanel);
+		
+		// Step Count 3 (request).
+		componentPanel = new JPanel();
+		componentPanel.add(new JLabel("3:"));
+		stepCount3Request = new JTextField("3880", 10);
+		componentPanel.add(stepCount3Request);
+		container.add(componentPanel);
+		
+		// Step Count 4 (request).
+		componentPanel = new JPanel();
+		componentPanel.add(new JLabel("4:"));
+		stepCount4Request = new JTextField("7590", 10);
+		componentPanel.add(stepCount4Request);
+		container.add(componentPanel);
+		
+		// Step Count 5 (request).
+		componentPanel = new JPanel();
+		componentPanel.add(new JLabel("5:"));
+		stepCount5Request = new JTextField("8320", 10);
+		componentPanel.add(stepCount5Request);
+		container.add(componentPanel);
+
+		// Calculate step count average button used to send the request.
+		componentPanel = new JPanel();
+		JButton button = new JButton("CALCULATE AVERAGE");
+		button.setPreferredSize(new Dimension(200, 30));
+		button.addActionListener(this);
+		componentPanel.add(button);
+		container.add(componentPanel);
+		
+		// Step Count Average (response).
+		componentPanel = new JPanel();
+		averageStepCountStepCountAverageResponse = new JLabel("");
+		componentPanel.add(averageStepCountStepCountAverageResponse);
+		container.add(componentPanel);
+
+		// Message (response).
+		componentPanel = new JPanel();
+		messageStepCountAverageResponse = new JLabel("");
+		componentPanel.add(messageStepCountAverageResponse);
+		container.add(componentPanel);
+		
+		return container;
+	}
+	
+	/**
+	 * Reset fields and labels for the incrementStepCount method JPanel (service 2).
+	 */
+	private void resetIncrementStepCountPanel() {
+		messageStepCountResponse.setText("");
+	}
+	
+	/**
+	 * Reset fields and labels for the getStepCountHistory method JPanel (service 2).
+	 */
+	private void resetGetStepCountHistoryPanel() {
+		stepCountHistoryResponse.setText("");
+		messageStepCountHistoryResponse.setText("");
+	}
+	
+	/**
+	 * Reset fields and labels for the calculateStepCountAverage method JPanel (service 2).
+	 */
+	private void resetCalculateStepCountAveragePanel() {
+		averageStepCountStepCountAverageResponse.setText("");
+		messageStepCountAverageResponse.setText("");
+	}
+	
+	
+	/**
 	 * Build the GUI.
 	 */
 	private void build() {
@@ -381,7 +622,7 @@ public class ClientGUI implements ActionListener {
 		container.setLayout(containerLayout);
 
 		// Set border for the panel
-		container.setBorder(new EmptyBorder(new Insets(50, 100, 50, 100)));
+		container.setBorder(new EmptyBorder(new Insets(50, 50, 50, 50)));
 
 		// Add the tab navigation menu to switch between services.
 		container.add(tabNavigationMenu());
@@ -421,12 +662,12 @@ public class ClientGUI implements ActionListener {
 		String label = button.getActionCommand();
 
 		// Save button for setUserProfile the method (Service 1).
-		if (label.equals("Save")) {
+		if (label.equals("SAVE")) {
 			System.out.println("Invoking setUserProfile()...");
 			
 			// Build the channel.
 			ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 50051).usePlaintext().build();
-			// Get blocking stubs generated from the proto file.
+			// Get blocking stubs.
 			Service1Grpc.Service1BlockingStub blockingStub = Service1Grpc.newBlockingStub(channel);
 
 			// Prepare the request.
@@ -459,10 +700,13 @@ public class ClientGUI implements ActionListener {
 				messageSetUserProfileResponse.setText(setMessageColour(true, error.getMessage()));
 				error.printStackTrace();
 			}
+			
+			// Print a divider between requests.
+			System.out.println("--------------------");
 
 		}
 		// Search button for the getUserProfile method (Service 1).
-		else if (label.equals("Search")) {
+		else if (label.equals("SEARCH")) {
 			System.out.println("Invoking getUserProfile()...");
 			
 			// Reset getUserProfile panel.
@@ -470,7 +714,7 @@ public class ClientGUI implements ActionListener {
 			
 			// Build the channel.
 			ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 50051).usePlaintext().build();
-			// Get blocking stubs generated from the proto file.
+			// Get blocking stubs.
 			Service1Grpc.Service1BlockingStub blockingStub = Service1Grpc.newBlockingStub(channel);
 			
 			// Prepare the request.
@@ -506,12 +750,219 @@ public class ClientGUI implements ActionListener {
 				messageGetUserProfileResponse.setText(setMessageColour(true, error.getMessage()));
 				error.printStackTrace();
 			}
-		} else {
 			
+			// Print a divider between requests.
+			System.out.println("--------------------");
 		}
-		
-		// Print a divider between requests.
-		System.out.println("--------------------");
+		// Add steps button for the incrementStepCount method (Service 2).
+		else if (label.equals("ADD STEPS")) {
+			System.out.println("Invoking incrementStepCount()...");
+			
+			// Reset incrementStepCount panel.
+			resetIncrementStepCountPanel();
+			
+			// Build the channel.
+			ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 50052).usePlaintext().build();
+			// Get async stubs.
+			Service2Grpc.Service2Stub asyncStub = Service2Grpc.newStub(channel);
+			
+			// Prepare the response stream observer.
+			StreamObserver<StepCountResponse> responseObserver = new StreamObserver<StepCountResponse>() {
+				@Override
+				public void onNext(StepCountResponse response) {
+					// Display current step count.
+					stepCountStepCountResponse.setText("Step Count: " + String.valueOf(response.getStepCount()));
+					System.out.println("incrementStepCount(); Response: " + response.getStepCount());
+					
+					try {
+						// Sleep for a bit before sending the next one.
+						Thread.sleep(500);
+					} catch (RuntimeException error) {
+						// Display error message.
+						messageStepCountResponse.setText(setMessageColour(true, error.getMessage()));
+						error.printStackTrace();
+					} catch (InterruptedException error) {
+						// Display error message.
+						messageStepCountResponse.setText(setMessageColour(true, error.getMessage()));
+						error.printStackTrace();
+					}
+				}
+
+				@Override
+				public void onError(Throwable t) {
+					/// Print error message.
+					messageStepCountResponse.setText(setMessageColour(true, t.getMessage()));
+					t.printStackTrace();
+				}
+
+				@Override
+				public void onCompleted() {
+					// Display success message.
+					messageStepCountResponse.setText(setMessageColour(false, String.valueOf("Steps added succesfully!")));
+					// Print message.
+					System.out.println("incrementStepCount(); Completed!");
+					// Print a divider between requests.
+					System.out.println("--------------------");
+				}
+			};
+
+			// Prepare the request stream observer.
+			StreamObserver<StepCountRequest> requestObserver = asyncStub.incrementStepCount(responseObserver);
+
+			// Try to send the request.
+			try {
+				System.out.println("StepCountRequest; Preparing requests...");
+				
+				// Loop the number of steps to be added.
+				for (int i = 0; i < Integer.parseInt(numberOfStepsStepCountRequest.getText()); i++) {
+					// Prepare and send request.
+					requestObserver.onNext(StepCountRequest.newBuilder()
+							.setUsername(usernameStepCountRequest.getText())
+							.build());
+				}
+				
+				System.out.println("StepCountRequest; Sending requests...");
+
+				// Mark the end of requests
+				requestObserver.onCompleted();
+
+				// Sleep for a bit before sending another request.
+				Thread.sleep(new Random().nextInt(1000) + 500);
+
+			} catch (RuntimeException error) {
+				// Display error message.
+				messageStepCountResponse.setText(setMessageColour(true, error.getMessage()));
+				error.printStackTrace();
+			} catch (InterruptedException error) {
+				// Display error message.
+				messageStepCountResponse.setText(setMessageColour(true, error.getMessage()));
+				error.printStackTrace();
+			}
+		}
+		// Get step count history button for the getStepCountHistory method (Service 2).
+		else if (label.equals("GET HISTORY")) {
+			System.out.println("Invoking getStepCountHistory()...");
+			
+			// Reset getStepCountHistory panel.
+			resetGetStepCountHistoryPanel();
+			
+			// Build the channel.
+			ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 50052).usePlaintext().build();
+			// Get blocking stubs.
+			Service2Grpc.Service2BlockingStub blockingStub = Service2Grpc.newBlockingStub(channel);
+			
+			// Prepare the request
+			StepCountHistoryRequest request = StepCountHistoryRequest.newBuilder()
+					.setUsername(usernameStepCountHistoryRequest.getText())
+					.build();
+
+			// Try to send the request.
+			try {
+				// Display message.
+				System.out.println("getStepCountHistory(); Response (Date: stepCount): ");
+				
+				// Send the request and store the responses.
+				Iterator<StepCountHistoryResponse> response = blockingStub.getStepCountHistory(request);
+				
+				// Label for stepCountHistoryResponse.
+				String stepCountHistoryLabel = "<html>";
+				
+				// Loop while the is a response.
+				while (response.hasNext()) {
+					// Store response temporarily.
+					StepCountHistoryResponse temp = response.next();
+					
+					// If user has no step count history yet.
+					if (temp.getStepCount() == -1) {
+						// Display error message.
+						messageStepCountHistoryResponse.setText(setMessageColour(true, temp.getDate()));
+						System.out.println(temp.getDate());
+					}
+					// If user has step count history.
+					else {
+						// Add to the step count history label.
+						stepCountHistoryLabel += temp.getDate() + ": " + temp.getStepCount() + "<br>";
+						System.out.println(temp.getDate() + ": " + temp.getStepCount());
+					}
+				}
+				
+				// Display step count history.
+				stepCountHistoryResponse.setText(stepCountHistoryLabel += "</html>");
+				
+			} catch (StatusRuntimeException error) {
+				// Display error message.
+				messageStepCountHistoryResponse.setText(setMessageColour(true, error.getMessage()));
+				error.printStackTrace();
+			}
+		}
+		// Calculate step count average button for the calculateStepCountAverage method (Service 2).
+		else if (label.equals("CALCULATE AVERAGE")) {
+			System.out.println("Invoking calculateStepCountAverage()...");
+			
+			// Reset calculateStepCountAverage panel.
+			resetCalculateStepCountAveragePanel();
+			
+			// Build the channel.
+			ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 50052).usePlaintext().build();
+			// Get async stubs.
+			Service2Grpc.Service2Stub asyncStub = Service2Grpc.newStub(channel);
+			
+			// Prepare the response stream observer.
+			StreamObserver<StepCountAverageResponse> responseObserver = new StreamObserver<StepCountAverageResponse>() {
+				@Override
+				public void onNext(StepCountAverageResponse response) {
+					// Display step count average.
+					averageStepCountStepCountAverageResponse.setText("Step Count Average: " + response.getAverageStepCount());
+					// Print response.
+					System.out.println("calculateStepCountAverage(); Response: " + response.getAverageStepCount());
+				}
+
+				@Override
+				public void onError(Throwable t) {
+					/// Print error message.
+					messageStepCountAverageResponse.setText(setMessageColour(true, t.getMessage()));
+					t.printStackTrace();
+				}
+
+				@Override
+				public void onCompleted() {
+					// Print message.
+					System.out.println("getStepCountHistory(); Completed!");
+					// Print a divider between requests.
+					System.out.println("--------------------");
+				}
+			};
+
+			// Prepare the request stream observer.
+			StreamObserver<StepCountAverageRequest> requestObserver = asyncStub.calculateStepCountAverage(responseObserver);
+
+			try {
+				System.out.println("StepCountAverageRequest; Preparing requests...");
+				
+				requestObserver.onNext(StepCountAverageRequest.newBuilder().setStepCount(Integer.parseInt(stepCount1Request.getText())).build());
+				requestObserver.onNext(StepCountAverageRequest.newBuilder().setStepCount(Integer.parseInt(stepCount2Request.getText())).build());
+				requestObserver.onNext(StepCountAverageRequest.newBuilder().setStepCount(Integer.parseInt(stepCount3Request.getText())).build());
+				requestObserver.onNext(StepCountAverageRequest.newBuilder().setStepCount(Integer.parseInt(stepCount4Request.getText())).build());
+				requestObserver.onNext(StepCountAverageRequest.newBuilder().setStepCount(Integer.parseInt(stepCount5Request.getText())).build());
+							
+				System.out.println("StepCountAverageRequest; Sending requests...");
+
+				// Mark the end of requests
+				requestObserver.onCompleted();
+
+				// Sleep for a bit before sending another request.
+				Thread.sleep(new Random().nextInt(1000) + 500);
+
+			} catch (RuntimeException error) {
+				// Display error message.
+				messageStepCountAverageResponse.setText(setMessageColour(true, error.getMessage()));
+				error.printStackTrace();
+			} catch (InterruptedException error) {
+				// Display error message.
+				messageStepCountAverageResponse.setText(setMessageColour(true, error.getMessage()));
+				error.printStackTrace();
+			}
+		}
 
 	}
 	

@@ -16,7 +16,7 @@ import io.grpc.stub.StreamObserver;
  * @author canedobox
  */
 public class Service1Server extends Service1ImplBase {	
-	// Mapping to store the user profiles.
+	// User profiles map.
 	private Map<String, GetUserProfileResponse> users = new HashMap<String, GetUserProfileResponse>();
 
 	/**
@@ -24,7 +24,7 @@ public class Service1Server extends Service1ImplBase {
 	 */
 	@Override
 	public void setUserProfile(SetUserProfileRequest request, StreamObserver<SetUserProfileResponse> responseObserver) {
-		// Display request message.
+		// Print request message.
 		System.out.println("setUserProfile(); Receiving request: " + request);
 		
 		String message = "";
