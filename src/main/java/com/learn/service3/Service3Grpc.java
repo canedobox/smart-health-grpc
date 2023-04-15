@@ -59,36 +59,36 @@ public final class Service3Grpc {
      return getCalculateBMIMethod;
   }
 
-  private static volatile io.grpc.MethodDescriptor<com.learn.service3.WeightLossWeeklyPlanRequest,
-      com.learn.service3.WeightLossWeeklyPlanResponse> getCreateWeightLossWeeklyPlanMethod;
+  private static volatile io.grpc.MethodDescriptor<com.learn.service3.WeightLossWeeklyTargetRequest,
+      com.learn.service3.WeightLossWeeklyTargetResponse> getGetWeightLossWeeklyTargetMethod;
 
   @io.grpc.stub.annotations.RpcMethod(
-      fullMethodName = SERVICE_NAME + '/' + "createWeightLossWeeklyPlan",
-      requestType = com.learn.service3.WeightLossWeeklyPlanRequest.class,
-      responseType = com.learn.service3.WeightLossWeeklyPlanResponse.class,
-      methodType = io.grpc.MethodDescriptor.MethodType.SERVER_STREAMING)
-  public static io.grpc.MethodDescriptor<com.learn.service3.WeightLossWeeklyPlanRequest,
-      com.learn.service3.WeightLossWeeklyPlanResponse> getCreateWeightLossWeeklyPlanMethod() {
-    io.grpc.MethodDescriptor<com.learn.service3.WeightLossWeeklyPlanRequest, com.learn.service3.WeightLossWeeklyPlanResponse> getCreateWeightLossWeeklyPlanMethod;
-    if ((getCreateWeightLossWeeklyPlanMethod = Service3Grpc.getCreateWeightLossWeeklyPlanMethod) == null) {
+      fullMethodName = SERVICE_NAME + '/' + "getWeightLossWeeklyTarget",
+      requestType = com.learn.service3.WeightLossWeeklyTargetRequest.class,
+      responseType = com.learn.service3.WeightLossWeeklyTargetResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<com.learn.service3.WeightLossWeeklyTargetRequest,
+      com.learn.service3.WeightLossWeeklyTargetResponse> getGetWeightLossWeeklyTargetMethod() {
+    io.grpc.MethodDescriptor<com.learn.service3.WeightLossWeeklyTargetRequest, com.learn.service3.WeightLossWeeklyTargetResponse> getGetWeightLossWeeklyTargetMethod;
+    if ((getGetWeightLossWeeklyTargetMethod = Service3Grpc.getGetWeightLossWeeklyTargetMethod) == null) {
       synchronized (Service3Grpc.class) {
-        if ((getCreateWeightLossWeeklyPlanMethod = Service3Grpc.getCreateWeightLossWeeklyPlanMethod) == null) {
-          Service3Grpc.getCreateWeightLossWeeklyPlanMethod = getCreateWeightLossWeeklyPlanMethod = 
-              io.grpc.MethodDescriptor.<com.learn.service3.WeightLossWeeklyPlanRequest, com.learn.service3.WeightLossWeeklyPlanResponse>newBuilder()
-              .setType(io.grpc.MethodDescriptor.MethodType.SERVER_STREAMING)
+        if ((getGetWeightLossWeeklyTargetMethod = Service3Grpc.getGetWeightLossWeeklyTargetMethod) == null) {
+          Service3Grpc.getGetWeightLossWeeklyTargetMethod = getGetWeightLossWeeklyTargetMethod = 
+              io.grpc.MethodDescriptor.<com.learn.service3.WeightLossWeeklyTargetRequest, com.learn.service3.WeightLossWeeklyTargetResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
               .setFullMethodName(generateFullMethodName(
-                  "Service3", "createWeightLossWeeklyPlan"))
+                  "Service3", "getWeightLossWeeklyTarget"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  com.learn.service3.WeightLossWeeklyPlanRequest.getDefaultInstance()))
+                  com.learn.service3.WeightLossWeeklyTargetRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  com.learn.service3.WeightLossWeeklyPlanResponse.getDefaultInstance()))
-                  .setSchemaDescriptor(new Service3MethodDescriptorSupplier("createWeightLossWeeklyPlan"))
+                  com.learn.service3.WeightLossWeeklyTargetResponse.getDefaultInstance()))
+                  .setSchemaDescriptor(new Service3MethodDescriptorSupplier("getWeightLossWeeklyTarget"))
                   .build();
           }
         }
      }
-     return getCreateWeightLossWeeklyPlanMethod;
+     return getGetWeightLossWeeklyTargetMethod;
   }
 
   /**
@@ -130,12 +130,12 @@ public final class Service3Grpc {
 
     /**
      * <pre>
-     * Create a weight loss weekly plan.
+     * Get a weight loss weekly target.
      * </pre>
      */
-    public void createWeightLossWeeklyPlan(com.learn.service3.WeightLossWeeklyPlanRequest request,
-        io.grpc.stub.StreamObserver<com.learn.service3.WeightLossWeeklyPlanResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getCreateWeightLossWeeklyPlanMethod(), responseObserver);
+    public void getWeightLossWeeklyTarget(com.learn.service3.WeightLossWeeklyTargetRequest request,
+        io.grpc.stub.StreamObserver<com.learn.service3.WeightLossWeeklyTargetResponse> responseObserver) {
+      asyncUnimplementedUnaryCall(getGetWeightLossWeeklyTargetMethod(), responseObserver);
     }
 
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
@@ -148,12 +148,12 @@ public final class Service3Grpc {
                 com.learn.service3.BMIResponse>(
                   this, METHODID_CALCULATE_BMI)))
           .addMethod(
-            getCreateWeightLossWeeklyPlanMethod(),
-            asyncServerStreamingCall(
+            getGetWeightLossWeeklyTargetMethod(),
+            asyncUnaryCall(
               new MethodHandlers<
-                com.learn.service3.WeightLossWeeklyPlanRequest,
-                com.learn.service3.WeightLossWeeklyPlanResponse>(
-                  this, METHODID_CREATE_WEIGHT_LOSS_WEEKLY_PLAN)))
+                com.learn.service3.WeightLossWeeklyTargetRequest,
+                com.learn.service3.WeightLossWeeklyTargetResponse>(
+                  this, METHODID_GET_WEIGHT_LOSS_WEEKLY_TARGET)))
           .build();
     }
   }
@@ -189,13 +189,13 @@ public final class Service3Grpc {
 
     /**
      * <pre>
-     * Create a weight loss weekly plan.
+     * Get a weight loss weekly target.
      * </pre>
      */
-    public void createWeightLossWeeklyPlan(com.learn.service3.WeightLossWeeklyPlanRequest request,
-        io.grpc.stub.StreamObserver<com.learn.service3.WeightLossWeeklyPlanResponse> responseObserver) {
-      asyncServerStreamingCall(
-          getChannel().newCall(getCreateWeightLossWeeklyPlanMethod(), getCallOptions()), request, responseObserver);
+    public void getWeightLossWeeklyTarget(com.learn.service3.WeightLossWeeklyTargetRequest request,
+        io.grpc.stub.StreamObserver<com.learn.service3.WeightLossWeeklyTargetResponse> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(getGetWeightLossWeeklyTargetMethod(), getCallOptions()), request, responseObserver);
     }
   }
 
@@ -229,13 +229,12 @@ public final class Service3Grpc {
 
     /**
      * <pre>
-     * Create a weight loss weekly plan.
+     * Get a weight loss weekly target.
      * </pre>
      */
-    public java.util.Iterator<com.learn.service3.WeightLossWeeklyPlanResponse> createWeightLossWeeklyPlan(
-        com.learn.service3.WeightLossWeeklyPlanRequest request) {
-      return blockingServerStreamingCall(
-          getChannel(), getCreateWeightLossWeeklyPlanMethod(), getCallOptions(), request);
+    public com.learn.service3.WeightLossWeeklyTargetResponse getWeightLossWeeklyTarget(com.learn.service3.WeightLossWeeklyTargetRequest request) {
+      return blockingUnaryCall(
+          getChannel(), getGetWeightLossWeeklyTargetMethod(), getCallOptions(), request);
     }
   }
 
@@ -267,10 +266,21 @@ public final class Service3Grpc {
       return futureUnaryCall(
           getChannel().newCall(getCalculateBMIMethod(), getCallOptions()), request);
     }
+
+    /**
+     * <pre>
+     * Get a weight loss weekly target.
+     * </pre>
+     */
+    public com.google.common.util.concurrent.ListenableFuture<com.learn.service3.WeightLossWeeklyTargetResponse> getWeightLossWeeklyTarget(
+        com.learn.service3.WeightLossWeeklyTargetRequest request) {
+      return futureUnaryCall(
+          getChannel().newCall(getGetWeightLossWeeklyTargetMethod(), getCallOptions()), request);
+    }
   }
 
   private static final int METHODID_CALCULATE_BMI = 0;
-  private static final int METHODID_CREATE_WEIGHT_LOSS_WEEKLY_PLAN = 1;
+  private static final int METHODID_GET_WEIGHT_LOSS_WEEKLY_TARGET = 1;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -293,9 +303,9 @@ public final class Service3Grpc {
           serviceImpl.calculateBMI((com.learn.service3.BMIRequest) request,
               (io.grpc.stub.StreamObserver<com.learn.service3.BMIResponse>) responseObserver);
           break;
-        case METHODID_CREATE_WEIGHT_LOSS_WEEKLY_PLAN:
-          serviceImpl.createWeightLossWeeklyPlan((com.learn.service3.WeightLossWeeklyPlanRequest) request,
-              (io.grpc.stub.StreamObserver<com.learn.service3.WeightLossWeeklyPlanResponse>) responseObserver);
+        case METHODID_GET_WEIGHT_LOSS_WEEKLY_TARGET:
+          serviceImpl.getWeightLossWeeklyTarget((com.learn.service3.WeightLossWeeklyTargetRequest) request,
+              (io.grpc.stub.StreamObserver<com.learn.service3.WeightLossWeeklyTargetResponse>) responseObserver);
           break;
         default:
           throw new AssertionError();
@@ -359,7 +369,7 @@ public final class Service3Grpc {
           serviceDescriptor = result = io.grpc.ServiceDescriptor.newBuilder(SERVICE_NAME)
               .setSchemaDescriptor(new Service3FileDescriptorSupplier())
               .addMethod(getCalculateBMIMethod())
-              .addMethod(getCreateWeightLossWeeklyPlanMethod())
+              .addMethod(getGetWeightLossWeeklyTargetMethod())
               .build();
         }
       }

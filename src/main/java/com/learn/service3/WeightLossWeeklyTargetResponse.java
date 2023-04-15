@@ -4,20 +4,19 @@
 package com.learn.service3;
 
 /**
- * Protobuf type {@code WeightLossWeeklyPlanResponse}
+ * Protobuf type {@code WeightLossWeeklyTargetResponse}
  */
-public  final class WeightLossWeeklyPlanResponse extends
+public  final class WeightLossWeeklyTargetResponse extends
     com.google.protobuf.GeneratedMessageV3 implements
-    // @@protoc_insertion_point(message_implements:WeightLossWeeklyPlanResponse)
-    WeightLossWeeklyPlanResponseOrBuilder {
+    // @@protoc_insertion_point(message_implements:WeightLossWeeklyTargetResponse)
+    WeightLossWeeklyTargetResponseOrBuilder {
 private static final long serialVersionUID = 0L;
-  // Use WeightLossWeeklyPlanResponse.newBuilder() to construct.
-  private WeightLossWeeklyPlanResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+  // Use WeightLossWeeklyTargetResponse.newBuilder() to construct.
+  private WeightLossWeeklyTargetResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
     super(builder);
   }
-  private WeightLossWeeklyPlanResponse() {
-    weekNumber_ = 0;
-    weightLossGoal_ = 0D;
+  private WeightLossWeeklyTargetResponse() {
+    weightLossWeeklyTarget_ = 0D;
   }
 
   @java.lang.Override
@@ -25,7 +24,7 @@ private static final long serialVersionUID = 0L;
   getUnknownFields() {
     return this.unknownFields;
   }
-  private WeightLossWeeklyPlanResponse(
+  private WeightLossWeeklyTargetResponse(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
@@ -44,14 +43,9 @@ private static final long serialVersionUID = 0L;
           case 0:
             done = true;
             break;
-          case 8: {
+          case 9: {
 
-            weekNumber_ = input.readInt32();
-            break;
-          }
-          case 17: {
-
-            weightLossGoal_ = input.readDouble();
+            weightLossWeeklyTarget_ = input.readDouble();
             break;
           }
           default: {
@@ -75,41 +69,28 @@ private static final long serialVersionUID = 0L;
   }
   public static final com.google.protobuf.Descriptors.Descriptor
       getDescriptor() {
-    return com.learn.service3.Service3Impl.internal_static_WeightLossWeeklyPlanResponse_descriptor;
+    return com.learn.service3.Service3Impl.internal_static_WeightLossWeeklyTargetResponse_descriptor;
   }
 
   @java.lang.Override
   protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internalGetFieldAccessorTable() {
-    return com.learn.service3.Service3Impl.internal_static_WeightLossWeeklyPlanResponse_fieldAccessorTable
+    return com.learn.service3.Service3Impl.internal_static_WeightLossWeeklyTargetResponse_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
-            com.learn.service3.WeightLossWeeklyPlanResponse.class, com.learn.service3.WeightLossWeeklyPlanResponse.Builder.class);
+            com.learn.service3.WeightLossWeeklyTargetResponse.class, com.learn.service3.WeightLossWeeklyTargetResponse.Builder.class);
   }
 
-  public static final int WEEKNUMBER_FIELD_NUMBER = 1;
-  private int weekNumber_;
+  public static final int WEIGHTLOSSWEEKLYTARGET_FIELD_NUMBER = 1;
+  private double weightLossWeeklyTarget_;
   /**
    * <pre>
-   * Week number for the plan.
+   * Weight loss weekly target in kilogram.
    * </pre>
    *
-   * <code>int32 weekNumber = 1;</code>
+   * <code>double weightLossWeeklyTarget = 1;</code>
    */
-  public int getWeekNumber() {
-    return weekNumber_;
-  }
-
-  public static final int WEIGHTLOSSGOAL_FIELD_NUMBER = 2;
-  private double weightLossGoal_;
-  /**
-   * <pre>
-   * Weight loss goal for the week in kilogram.
-   * </pre>
-   *
-   * <code>double weightLossGoal = 2;</code>
-   */
-  public double getWeightLossGoal() {
-    return weightLossGoal_;
+  public double getWeightLossWeeklyTarget() {
+    return weightLossWeeklyTarget_;
   }
 
   private byte memoizedIsInitialized = -1;
@@ -126,11 +107,8 @@ private static final long serialVersionUID = 0L;
   @java.lang.Override
   public void writeTo(com.google.protobuf.CodedOutputStream output)
                       throws java.io.IOException {
-    if (weekNumber_ != 0) {
-      output.writeInt32(1, weekNumber_);
-    }
-    if (weightLossGoal_ != 0D) {
-      output.writeDouble(2, weightLossGoal_);
+    if (weightLossWeeklyTarget_ != 0D) {
+      output.writeDouble(1, weightLossWeeklyTarget_);
     }
     unknownFields.writeTo(output);
   }
@@ -141,13 +119,9 @@ private static final long serialVersionUID = 0L;
     if (size != -1) return size;
 
     size = 0;
-    if (weekNumber_ != 0) {
+    if (weightLossWeeklyTarget_ != 0D) {
       size += com.google.protobuf.CodedOutputStream
-        .computeInt32Size(1, weekNumber_);
-    }
-    if (weightLossGoal_ != 0D) {
-      size += com.google.protobuf.CodedOutputStream
-        .computeDoubleSize(2, weightLossGoal_);
+        .computeDoubleSize(1, weightLossWeeklyTarget_);
     }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
@@ -159,18 +133,16 @@ private static final long serialVersionUID = 0L;
     if (obj == this) {
      return true;
     }
-    if (!(obj instanceof com.learn.service3.WeightLossWeeklyPlanResponse)) {
+    if (!(obj instanceof com.learn.service3.WeightLossWeeklyTargetResponse)) {
       return super.equals(obj);
     }
-    com.learn.service3.WeightLossWeeklyPlanResponse other = (com.learn.service3.WeightLossWeeklyPlanResponse) obj;
+    com.learn.service3.WeightLossWeeklyTargetResponse other = (com.learn.service3.WeightLossWeeklyTargetResponse) obj;
 
     boolean result = true;
-    result = result && (getWeekNumber()
-        == other.getWeekNumber());
     result = result && (
-        java.lang.Double.doubleToLongBits(getWeightLossGoal())
+        java.lang.Double.doubleToLongBits(getWeightLossWeeklyTarget())
         == java.lang.Double.doubleToLongBits(
-            other.getWeightLossGoal()));
+            other.getWeightLossWeeklyTarget()));
     result = result && unknownFields.equals(other.unknownFields);
     return result;
   }
@@ -182,79 +154,77 @@ private static final long serialVersionUID = 0L;
     }
     int hash = 41;
     hash = (19 * hash) + getDescriptor().hashCode();
-    hash = (37 * hash) + WEEKNUMBER_FIELD_NUMBER;
-    hash = (53 * hash) + getWeekNumber();
-    hash = (37 * hash) + WEIGHTLOSSGOAL_FIELD_NUMBER;
+    hash = (37 * hash) + WEIGHTLOSSWEEKLYTARGET_FIELD_NUMBER;
     hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-        java.lang.Double.doubleToLongBits(getWeightLossGoal()));
+        java.lang.Double.doubleToLongBits(getWeightLossWeeklyTarget()));
     hash = (29 * hash) + unknownFields.hashCode();
     memoizedHashCode = hash;
     return hash;
   }
 
-  public static com.learn.service3.WeightLossWeeklyPlanResponse parseFrom(
+  public static com.learn.service3.WeightLossWeeklyTargetResponse parseFrom(
       java.nio.ByteBuffer data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static com.learn.service3.WeightLossWeeklyPlanResponse parseFrom(
+  public static com.learn.service3.WeightLossWeeklyTargetResponse parseFrom(
       java.nio.ByteBuffer data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static com.learn.service3.WeightLossWeeklyPlanResponse parseFrom(
+  public static com.learn.service3.WeightLossWeeklyTargetResponse parseFrom(
       com.google.protobuf.ByteString data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static com.learn.service3.WeightLossWeeklyPlanResponse parseFrom(
+  public static com.learn.service3.WeightLossWeeklyTargetResponse parseFrom(
       com.google.protobuf.ByteString data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static com.learn.service3.WeightLossWeeklyPlanResponse parseFrom(byte[] data)
+  public static com.learn.service3.WeightLossWeeklyTargetResponse parseFrom(byte[] data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static com.learn.service3.WeightLossWeeklyPlanResponse parseFrom(
+  public static com.learn.service3.WeightLossWeeklyTargetResponse parseFrom(
       byte[] data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static com.learn.service3.WeightLossWeeklyPlanResponse parseFrom(java.io.InputStream input)
+  public static com.learn.service3.WeightLossWeeklyTargetResponse parseFrom(java.io.InputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
-  public static com.learn.service3.WeightLossWeeklyPlanResponse parseFrom(
+  public static com.learn.service3.WeightLossWeeklyTargetResponse parseFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input, extensionRegistry);
   }
-  public static com.learn.service3.WeightLossWeeklyPlanResponse parseDelimitedFrom(java.io.InputStream input)
+  public static com.learn.service3.WeightLossWeeklyTargetResponse parseDelimitedFrom(java.io.InputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input);
   }
-  public static com.learn.service3.WeightLossWeeklyPlanResponse parseDelimitedFrom(
+  public static com.learn.service3.WeightLossWeeklyTargetResponse parseDelimitedFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
   }
-  public static com.learn.service3.WeightLossWeeklyPlanResponse parseFrom(
+  public static com.learn.service3.WeightLossWeeklyTargetResponse parseFrom(
       com.google.protobuf.CodedInputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
-  public static com.learn.service3.WeightLossWeeklyPlanResponse parseFrom(
+  public static com.learn.service3.WeightLossWeeklyTargetResponse parseFrom(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
@@ -267,7 +237,7 @@ private static final long serialVersionUID = 0L;
   public static Builder newBuilder() {
     return DEFAULT_INSTANCE.toBuilder();
   }
-  public static Builder newBuilder(com.learn.service3.WeightLossWeeklyPlanResponse prototype) {
+  public static Builder newBuilder(com.learn.service3.WeightLossWeeklyTargetResponse prototype) {
     return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
   }
   @java.lang.Override
@@ -283,26 +253,26 @@ private static final long serialVersionUID = 0L;
     return builder;
   }
   /**
-   * Protobuf type {@code WeightLossWeeklyPlanResponse}
+   * Protobuf type {@code WeightLossWeeklyTargetResponse}
    */
   public static final class Builder extends
       com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-      // @@protoc_insertion_point(builder_implements:WeightLossWeeklyPlanResponse)
-      com.learn.service3.WeightLossWeeklyPlanResponseOrBuilder {
+      // @@protoc_insertion_point(builder_implements:WeightLossWeeklyTargetResponse)
+      com.learn.service3.WeightLossWeeklyTargetResponseOrBuilder {
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return com.learn.service3.Service3Impl.internal_static_WeightLossWeeklyPlanResponse_descriptor;
+      return com.learn.service3.Service3Impl.internal_static_WeightLossWeeklyTargetResponse_descriptor;
     }
 
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return com.learn.service3.Service3Impl.internal_static_WeightLossWeeklyPlanResponse_fieldAccessorTable
+      return com.learn.service3.Service3Impl.internal_static_WeightLossWeeklyTargetResponse_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              com.learn.service3.WeightLossWeeklyPlanResponse.class, com.learn.service3.WeightLossWeeklyPlanResponse.Builder.class);
+              com.learn.service3.WeightLossWeeklyTargetResponse.class, com.learn.service3.WeightLossWeeklyTargetResponse.Builder.class);
     }
 
-    // Construct using com.learn.service3.WeightLossWeeklyPlanResponse.newBuilder()
+    // Construct using com.learn.service3.WeightLossWeeklyTargetResponse.newBuilder()
     private Builder() {
       maybeForceBuilderInitialization();
     }
@@ -320,9 +290,7 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public Builder clear() {
       super.clear();
-      weekNumber_ = 0;
-
-      weightLossGoal_ = 0D;
+      weightLossWeeklyTarget_ = 0D;
 
       return this;
     }
@@ -330,17 +298,17 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public com.google.protobuf.Descriptors.Descriptor
         getDescriptorForType() {
-      return com.learn.service3.Service3Impl.internal_static_WeightLossWeeklyPlanResponse_descriptor;
+      return com.learn.service3.Service3Impl.internal_static_WeightLossWeeklyTargetResponse_descriptor;
     }
 
     @java.lang.Override
-    public com.learn.service3.WeightLossWeeklyPlanResponse getDefaultInstanceForType() {
-      return com.learn.service3.WeightLossWeeklyPlanResponse.getDefaultInstance();
+    public com.learn.service3.WeightLossWeeklyTargetResponse getDefaultInstanceForType() {
+      return com.learn.service3.WeightLossWeeklyTargetResponse.getDefaultInstance();
     }
 
     @java.lang.Override
-    public com.learn.service3.WeightLossWeeklyPlanResponse build() {
-      com.learn.service3.WeightLossWeeklyPlanResponse result = buildPartial();
+    public com.learn.service3.WeightLossWeeklyTargetResponse build() {
+      com.learn.service3.WeightLossWeeklyTargetResponse result = buildPartial();
       if (!result.isInitialized()) {
         throw newUninitializedMessageException(result);
       }
@@ -348,10 +316,9 @@ private static final long serialVersionUID = 0L;
     }
 
     @java.lang.Override
-    public com.learn.service3.WeightLossWeeklyPlanResponse buildPartial() {
-      com.learn.service3.WeightLossWeeklyPlanResponse result = new com.learn.service3.WeightLossWeeklyPlanResponse(this);
-      result.weekNumber_ = weekNumber_;
-      result.weightLossGoal_ = weightLossGoal_;
+    public com.learn.service3.WeightLossWeeklyTargetResponse buildPartial() {
+      com.learn.service3.WeightLossWeeklyTargetResponse result = new com.learn.service3.WeightLossWeeklyTargetResponse(this);
+      result.weightLossWeeklyTarget_ = weightLossWeeklyTarget_;
       onBuilt();
       return result;
     }
@@ -390,21 +357,18 @@ private static final long serialVersionUID = 0L;
     }
     @java.lang.Override
     public Builder mergeFrom(com.google.protobuf.Message other) {
-      if (other instanceof com.learn.service3.WeightLossWeeklyPlanResponse) {
-        return mergeFrom((com.learn.service3.WeightLossWeeklyPlanResponse)other);
+      if (other instanceof com.learn.service3.WeightLossWeeklyTargetResponse) {
+        return mergeFrom((com.learn.service3.WeightLossWeeklyTargetResponse)other);
       } else {
         super.mergeFrom(other);
         return this;
       }
     }
 
-    public Builder mergeFrom(com.learn.service3.WeightLossWeeklyPlanResponse other) {
-      if (other == com.learn.service3.WeightLossWeeklyPlanResponse.getDefaultInstance()) return this;
-      if (other.getWeekNumber() != 0) {
-        setWeekNumber(other.getWeekNumber());
-      }
-      if (other.getWeightLossGoal() != 0D) {
-        setWeightLossGoal(other.getWeightLossGoal());
+    public Builder mergeFrom(com.learn.service3.WeightLossWeeklyTargetResponse other) {
+      if (other == com.learn.service3.WeightLossWeeklyTargetResponse.getDefaultInstance()) return this;
+      if (other.getWeightLossWeeklyTarget() != 0D) {
+        setWeightLossWeeklyTarget(other.getWeightLossWeeklyTarget());
       }
       this.mergeUnknownFields(other.unknownFields);
       onChanged();
@@ -421,11 +385,11 @@ private static final long serialVersionUID = 0L;
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      com.learn.service3.WeightLossWeeklyPlanResponse parsedMessage = null;
+      com.learn.service3.WeightLossWeeklyTargetResponse parsedMessage = null;
       try {
         parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        parsedMessage = (com.learn.service3.WeightLossWeeklyPlanResponse) e.getUnfinishedMessage();
+        parsedMessage = (com.learn.service3.WeightLossWeeklyTargetResponse) e.getUnfinishedMessage();
         throw e.unwrapIOException();
       } finally {
         if (parsedMessage != null) {
@@ -435,78 +399,40 @@ private static final long serialVersionUID = 0L;
       return this;
     }
 
-    private int weekNumber_ ;
+    private double weightLossWeeklyTarget_ ;
     /**
      * <pre>
-     * Week number for the plan.
+     * Weight loss weekly target in kilogram.
      * </pre>
      *
-     * <code>int32 weekNumber = 1;</code>
+     * <code>double weightLossWeeklyTarget = 1;</code>
      */
-    public int getWeekNumber() {
-      return weekNumber_;
+    public double getWeightLossWeeklyTarget() {
+      return weightLossWeeklyTarget_;
     }
     /**
      * <pre>
-     * Week number for the plan.
+     * Weight loss weekly target in kilogram.
      * </pre>
      *
-     * <code>int32 weekNumber = 1;</code>
+     * <code>double weightLossWeeklyTarget = 1;</code>
      */
-    public Builder setWeekNumber(int value) {
+    public Builder setWeightLossWeeklyTarget(double value) {
       
-      weekNumber_ = value;
+      weightLossWeeklyTarget_ = value;
       onChanged();
       return this;
     }
     /**
      * <pre>
-     * Week number for the plan.
+     * Weight loss weekly target in kilogram.
      * </pre>
      *
-     * <code>int32 weekNumber = 1;</code>
+     * <code>double weightLossWeeklyTarget = 1;</code>
      */
-    public Builder clearWeekNumber() {
+    public Builder clearWeightLossWeeklyTarget() {
       
-      weekNumber_ = 0;
-      onChanged();
-      return this;
-    }
-
-    private double weightLossGoal_ ;
-    /**
-     * <pre>
-     * Weight loss goal for the week in kilogram.
-     * </pre>
-     *
-     * <code>double weightLossGoal = 2;</code>
-     */
-    public double getWeightLossGoal() {
-      return weightLossGoal_;
-    }
-    /**
-     * <pre>
-     * Weight loss goal for the week in kilogram.
-     * </pre>
-     *
-     * <code>double weightLossGoal = 2;</code>
-     */
-    public Builder setWeightLossGoal(double value) {
-      
-      weightLossGoal_ = value;
-      onChanged();
-      return this;
-    }
-    /**
-     * <pre>
-     * Weight loss goal for the week in kilogram.
-     * </pre>
-     *
-     * <code>double weightLossGoal = 2;</code>
-     */
-    public Builder clearWeightLossGoal() {
-      
-      weightLossGoal_ = 0D;
+      weightLossWeeklyTarget_ = 0D;
       onChanged();
       return this;
     }
@@ -523,41 +449,41 @@ private static final long serialVersionUID = 0L;
     }
 
 
-    // @@protoc_insertion_point(builder_scope:WeightLossWeeklyPlanResponse)
+    // @@protoc_insertion_point(builder_scope:WeightLossWeeklyTargetResponse)
   }
 
-  // @@protoc_insertion_point(class_scope:WeightLossWeeklyPlanResponse)
-  private static final com.learn.service3.WeightLossWeeklyPlanResponse DEFAULT_INSTANCE;
+  // @@protoc_insertion_point(class_scope:WeightLossWeeklyTargetResponse)
+  private static final com.learn.service3.WeightLossWeeklyTargetResponse DEFAULT_INSTANCE;
   static {
-    DEFAULT_INSTANCE = new com.learn.service3.WeightLossWeeklyPlanResponse();
+    DEFAULT_INSTANCE = new com.learn.service3.WeightLossWeeklyTargetResponse();
   }
 
-  public static com.learn.service3.WeightLossWeeklyPlanResponse getDefaultInstance() {
+  public static com.learn.service3.WeightLossWeeklyTargetResponse getDefaultInstance() {
     return DEFAULT_INSTANCE;
   }
 
-  private static final com.google.protobuf.Parser<WeightLossWeeklyPlanResponse>
-      PARSER = new com.google.protobuf.AbstractParser<WeightLossWeeklyPlanResponse>() {
+  private static final com.google.protobuf.Parser<WeightLossWeeklyTargetResponse>
+      PARSER = new com.google.protobuf.AbstractParser<WeightLossWeeklyTargetResponse>() {
     @java.lang.Override
-    public WeightLossWeeklyPlanResponse parsePartialFrom(
+    public WeightLossWeeklyTargetResponse parsePartialFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      return new WeightLossWeeklyPlanResponse(input, extensionRegistry);
+      return new WeightLossWeeklyTargetResponse(input, extensionRegistry);
     }
   };
 
-  public static com.google.protobuf.Parser<WeightLossWeeklyPlanResponse> parser() {
+  public static com.google.protobuf.Parser<WeightLossWeeklyTargetResponse> parser() {
     return PARSER;
   }
 
   @java.lang.Override
-  public com.google.protobuf.Parser<WeightLossWeeklyPlanResponse> getParserForType() {
+  public com.google.protobuf.Parser<WeightLossWeeklyTargetResponse> getParserForType() {
     return PARSER;
   }
 
   @java.lang.Override
-  public com.learn.service3.WeightLossWeeklyPlanResponse getDefaultInstanceForType() {
+  public com.learn.service3.WeightLossWeeklyTargetResponse getDefaultInstanceForType() {
     return DEFAULT_INSTANCE;
   }
 

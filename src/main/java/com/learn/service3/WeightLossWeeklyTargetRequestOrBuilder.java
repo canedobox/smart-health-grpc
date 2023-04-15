@@ -3,8 +3,8 @@
 
 package com.learn.service3;
 
-public interface WeightLossWeeklyPlanRequestOrBuilder extends
-    // @@protoc_insertion_point(interface_extends:WeightLossWeeklyPlanRequest)
+public interface WeightLossWeeklyTargetRequestOrBuilder extends
+    // @@protoc_insertion_point(interface_extends:WeightLossWeeklyTargetRequest)
     com.google.protobuf.MessageOrBuilder {
 
   /**

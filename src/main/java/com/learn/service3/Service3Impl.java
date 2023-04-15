@@ -25,15 +25,15 @@ public final class Service3Impl {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_BMIResponse_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_WeightLossWeeklyPlanRequest_descriptor;
+    internal_static_WeightLossWeeklyTargetRequest_descriptor;
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_WeightLossWeeklyPlanRequest_fieldAccessorTable;
+      internal_static_WeightLossWeeklyTargetRequest_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_WeightLossWeeklyPlanResponse_descriptor;
+    internal_static_WeightLossWeeklyTargetResponse_descriptor;
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_WeightLossWeeklyPlanResponse_fieldAccessorTable;
+      internal_static_WeightLossWeeklyTargetResponse_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -44,17 +44,17 @@ public final class Service3Impl {
   static {
     java.lang.String[] descriptorData = {
       "\n\016service3.proto\",\n\nBMIRequest\022\016\n\006height" +
-      "\030\001 \001(\001\022\016\n\006weight\030\002 \001(\001\"\032\n\013BMIResponse\022\013\n" +
-      "\003BMI\030\001 \001(\001\"_\n\033WeightLossWeeklyPlanReques" +
-      "t\022\025\n\rcurrentWeight\030\001 \001(\001\022\022\n\nweightGoal\030\002" +
-      " \001(\001\022\025\n\rnumberOfWeeks\030\003 \001(\005\"J\n\034WeightLos" +
-      "sWeeklyPlanResponse\022\022\n\nweekNumber\030\001 \001(\005\022" +
-      "\026\n\016weightLossGoal\030\002 \001(\0012\226\001\n\010Service3\022+\n\014" +
-      "calculateBMI\022\013.BMIRequest\032\014.BMIResponse\"" +
-      "\000\022]\n\032createWeightLossWeeklyPlan\022\034.Weight" +
-      "LossWeeklyPlanRequest\032\035.WeightLossWeekly" +
-      "PlanResponse\"\0000\001B$\n\022com.learn.service3B\014" +
-      "Service3ImplP\001b\006proto3"
+      "\030\001 \001(\001\022\016\n\006weight\030\002 \001(\001\",\n\013BMIResponse\022\013\n" +
+      "\003bmi\030\001 \001(\001\022\020\n\010category\030\002 \001(\t\"a\n\035WeightLo" +
+      "ssWeeklyTargetRequest\022\025\n\rcurrentWeight\030\001" +
+      " \001(\001\022\022\n\nweightGoal\030\002 \001(\001\022\025\n\rnumberOfWeek" +
+      "s\030\003 \001(\005\"@\n\036WeightLossWeeklyTargetRespons" +
+      "e\022\036\n\026weightLossWeeklyTarget\030\001 \001(\0012\227\001\n\010Se" +
+      "rvice3\022+\n\014calculateBMI\022\013.BMIRequest\032\014.BM" +
+      "IResponse\"\000\022^\n\031getWeightLossWeeklyTarget" +
+      "\022\036.WeightLossWeeklyTargetRequest\032\037.Weigh" +
+      "tLossWeeklyTargetResponse\"\000B$\n\022com.learn" +
+      ".service3B\014Service3ImplP\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -79,19 +79,19 @@ public final class Service3Impl {
     internal_static_BMIResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_BMIResponse_descriptor,
-        new java.lang.String[] { "BMI", });
-    internal_static_WeightLossWeeklyPlanRequest_descriptor =
+        new java.lang.String[] { "Bmi", "Category", });
+    internal_static_WeightLossWeeklyTargetRequest_descriptor =
       getDescriptor().getMessageTypes().get(2);
-    internal_static_WeightLossWeeklyPlanRequest_fieldAccessorTable = new
+    internal_static_WeightLossWeeklyTargetRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_WeightLossWeeklyPlanRequest_descriptor,
+        internal_static_WeightLossWeeklyTargetRequest_descriptor,
         new java.lang.String[] { "CurrentWeight", "WeightGoal", "NumberOfWeeks", });
-    internal_static_WeightLossWeeklyPlanResponse_descriptor =
+    internal_static_WeightLossWeeklyTargetResponse_descriptor =
       getDescriptor().getMessageTypes().get(3);
-    internal_static_WeightLossWeeklyPlanResponse_fieldAccessorTable = new
+    internal_static_WeightLossWeeklyTargetResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_WeightLossWeeklyPlanResponse_descriptor,
-        new java.lang.String[] { "WeekNumber", "WeightLossGoal", });
+        internal_static_WeightLossWeeklyTargetResponse_descriptor,
+        new java.lang.String[] { "WeightLossWeeklyTarget", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

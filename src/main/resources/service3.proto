@@ -8,8 +8,8 @@ service Service3 {
 	// Calculate BMI (Body Mass Index).
     rpc calculateBMI(BMIRequest) returns (BMIResponse) {}
     
-	// Create a weight loss weekly plan.
-    rpc createWeightLossWeeklyPlan(WeightLossWeeklyPlanRequest) returns (stream WeightLossWeeklyPlanResponse) {}
+	// Get a weight loss weekly target.
+    rpc getWeightLossWeeklyTarget(WeightLossWeeklyTargetRequest) returns (WeightLossWeeklyTargetResponse) {}
 }
 
 message BMIRequest {
@@ -22,10 +22,13 @@ message BMIRequest {
 
 message BMIResponse {
     // Body Mass Index.
-    double BMI = 1;
+    double bmi = 1;
+    
+    // Category based on the bmi results.
+    string category = 2;
 }
 
-message WeightLossWeeklyPlanRequest {
+message WeightLossWeeklyTargetRequest {
     // Current weight in kilogram.
     double currentWeight = 1;
     
@@ -36,10 +39,7 @@ message WeightLossWeeklyPlanRequest {
     int32 numberOfWeeks = 3;
 }
 
-message WeightLossWeeklyPlanResponse {
-	// Week number for the plan.
-    int32 weekNumber = 1;
-    
-	// Weight loss goal for the week in kilogram.
-    double weightLossGoal = 2;
+message WeightLossWeeklyTargetResponse {    
+	// Weight loss weekly target in kilogram.
+    double weightLossWeeklyTarget = 1;
 }

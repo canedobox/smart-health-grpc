@@ -16,7 +16,8 @@ private static final long serialVersionUID = 0L;
     super(builder);
   }
   private BMIResponse() {
-    bMI_ = 0D;
+    bmi_ = 0D;
+    category_ = "";
   }
 
   @java.lang.Override
@@ -45,7 +46,13 @@ private static final long serialVersionUID = 0L;
             break;
           case 9: {
 
-            bMI_ = input.readDouble();
+            bmi_ = input.readDouble();
+            break;
+          }
+          case 18: {
+            java.lang.String s = input.readStringRequireUtf8();
+
+            category_ = s;
             break;
           }
           default: {
@@ -81,16 +88,58 @@ private static final long serialVersionUID = 0L;
   }
 
   public static final int BMI_FIELD_NUMBER = 1;
-  private double bMI_;
+  private double bmi_;
   /**
    * <pre>
    * Body Mass Index.
    * </pre>
    *
-   * <code>double BMI = 1;</code>
+   * <code>double bmi = 1;</code>
    */
-  public double getBMI() {
-    return bMI_;
+  public double getBmi() {
+    return bmi_;
+  }
+
+  public static final int CATEGORY_FIELD_NUMBER = 2;
+  private volatile java.lang.Object category_;
+  /**
+   * <pre>
+   * Category based on the bmi results.
+   * </pre>
+   *
+   * <code>string category = 2;</code>
+   */
+  public java.lang.String getCategory() {
+    java.lang.Object ref = category_;
+    if (ref instanceof java.lang.String) {
+      return (java.lang.String) ref;
+    } else {
+      com.google.protobuf.ByteString bs = 
+          (com.google.protobuf.ByteString) ref;
+      java.lang.String s = bs.toStringUtf8();
+      category_ = s;
+      return s;
+    }
+  }
+  /**
+   * <pre>
+   * Category based on the bmi results.
+   * </pre>
+   *
+   * <code>string category = 2;</code>
+   */
+  public com.google.protobuf.ByteString
+      getCategoryBytes() {
+    java.lang.Object ref = category_;
+    if (ref instanceof java.lang.String) {
+      com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString.copyFromUtf8(
+              (java.lang.String) ref);
+      category_ = b;
+      return b;
+    } else {
+      return (com.google.protobuf.ByteString) ref;
+    }
   }
 
   private byte memoizedIsInitialized = -1;
@@ -107,8 +156,11 @@ private static final long serialVersionUID = 0L;
   @java.lang.Override
   public void writeTo(com.google.protobuf.CodedOutputStream output)
                       throws java.io.IOException {
-    if (bMI_ != 0D) {
-      output.writeDouble(1, bMI_);
+    if (bmi_ != 0D) {
+      output.writeDouble(1, bmi_);
+    }
+    if (!getCategoryBytes().isEmpty()) {
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 2, category_);
     }
     unknownFields.writeTo(output);
   }
@@ -119,9 +171,12 @@ private static final long serialVersionUID = 0L;
     if (size != -1) return size;
 
     size = 0;
-    if (bMI_ != 0D) {
+    if (bmi_ != 0D) {
       size += com.google.protobuf.CodedOutputStream
-        .computeDoubleSize(1, bMI_);
+        .computeDoubleSize(1, bmi_);
+    }
+    if (!getCategoryBytes().isEmpty()) {
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, category_);
     }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
@@ -140,9 +195,11 @@ private static final long serialVersionUID = 0L;
 
     boolean result = true;
     result = result && (
-        java.lang.Double.doubleToLongBits(getBMI())
+        java.lang.Double.doubleToLongBits(getBmi())
         == java.lang.Double.doubleToLongBits(
-            other.getBMI()));
+            other.getBmi()));
+    result = result && getCategory()
+        .equals(other.getCategory());
     result = result && unknownFields.equals(other.unknownFields);
     return result;
   }
@@ -156,7 +213,9 @@ private static final long serialVersionUID = 0L;
     hash = (19 * hash) + getDescriptor().hashCode();
     hash = (37 * hash) + BMI_FIELD_NUMBER;
     hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-        java.lang.Double.doubleToLongBits(getBMI()));
+        java.lang.Double.doubleToLongBits(getBmi()));
+    hash = (37 * hash) + CATEGORY_FIELD_NUMBER;
+    hash = (53 * hash) + getCategory().hashCode();
     hash = (29 * hash) + unknownFields.hashCode();
     memoizedHashCode = hash;
     return hash;
@@ -290,7 +349,9 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public Builder clear() {
       super.clear();
-      bMI_ = 0D;
+      bmi_ = 0D;
+
+      category_ = "";
 
       return this;
     }
@@ -318,7 +379,8 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public com.learn.service3.BMIResponse buildPartial() {
       com.learn.service3.BMIResponse result = new com.learn.service3.BMIResponse(this);
-      result.bMI_ = bMI_;
+      result.bmi_ = bmi_;
+      result.category_ = category_;
       onBuilt();
       return result;
     }
@@ -367,8 +429,12 @@ private static final long serialVersionUID = 0L;
 
     public Builder mergeFrom(com.learn.service3.BMIResponse other) {
       if (other == com.learn.service3.BMIResponse.getDefaultInstance()) return this;
-      if (other.getBMI() != 0D) {
-        setBMI(other.getBMI());
+      if (other.getBmi() != 0D) {
+        setBmi(other.getBmi());
+      }
+      if (!other.getCategory().isEmpty()) {
+        category_ = other.category_;
+        onChanged();
       }
       this.mergeUnknownFields(other.unknownFields);
       onChanged();
@@ -399,27 +465,27 @@ private static final long serialVersionUID = 0L;
       return this;
     }
 
-    private double bMI_ ;
+    private double bmi_ ;
     /**
      * <pre>
      * Body Mass Index.
      * </pre>
      *
-     * <code>double BMI = 1;</code>
+     * <code>double bmi = 1;</code>
      */
-    public double getBMI() {
-      return bMI_;
+    public double getBmi() {
+      return bmi_;
     }
     /**
      * <pre>
      * Body Mass Index.
      * </pre>
      *
-     * <code>double BMI = 1;</code>
+     * <code>double bmi = 1;</code>
      */
-    public Builder setBMI(double value) {
+    public Builder setBmi(double value) {
       
-      bMI_ = value;
+      bmi_ = value;
       onChanged();
       return this;
     }
@@ -428,11 +494,100 @@ private static final long serialVersionUID = 0L;
      * Body Mass Index.
      * </pre>
      *
-     * <code>double BMI = 1;</code>
+     * <code>double bmi = 1;</code>
      */
-    public Builder clearBMI() {
+    public Builder clearBmi() {
       
-      bMI_ = 0D;
+      bmi_ = 0D;
+      onChanged();
+      return this;
+    }
+
+    private java.lang.Object category_ = "";
+    /**
+     * <pre>
+     * Category based on the bmi results.
+     * </pre>
+     *
+     * <code>string category = 2;</code>
+     */
+    public java.lang.String getCategory() {
+      java.lang.Object ref = category_;
+      if (!(ref instanceof java.lang.String)) {
+        com.google.protobuf.ByteString bs =
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        category_ = s;
+        return s;
+      } else {
+        return (java.lang.String) ref;
+      }
+    }
+    /**
+     * <pre>
+     * Category based on the bmi results.
+     * </pre>
+     *
+     * <code>string category = 2;</code>
+     */
+    public com.google.protobuf.ByteString
+        getCategoryBytes() {
+      java.lang.Object ref = category_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        category_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+    /**
+     * <pre>
+     * Category based on the bmi results.
+     * </pre>
+     *
+     * <code>string category = 2;</code>
+     */
+    public Builder setCategory(
+        java.lang.String value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  
+      category_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <pre>
+     * Category based on the bmi results.
+     * </pre>
+     *
+     * <code>string category = 2;</code>
+     */
+    public Builder clearCategory() {
+      
+      category_ = getDefaultInstance().getCategory();
+      onChanged();
+      return this;
+    }
+    /**
+     * <pre>
+     * Category based on the bmi results.
+     * </pre>
+     *
+     * <code>string category = 2;</code>
+     */
+    public Builder setCategoryBytes(
+        com.google.protobuf.ByteString value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+      
+      category_ = value;
       onChanged();
       return this;
     }

@@ -12,7 +12,25 @@ public interface BMIResponseOrBuilder extends
    * Body Mass Index.
    * </pre>
    *
-   * <code>double BMI = 1;</code>
+   * <code>double bmi = 1;</code>
    */
-  double getBMI();
+  double getBmi();
+
+  /**
+   * <pre>
+   * Category based on the bmi results.
+   * </pre>
+   *
+   * <code>string category = 2;</code>
+   */
+  java.lang.String getCategory();
+  /**
+   * <pre>
+   * Category based on the bmi results.
+   * </pre>
+   *
+   * <code>string category = 2;</code>
+   */
+  com.google.protobuf.ByteString
+      getCategoryBytes();
 }
