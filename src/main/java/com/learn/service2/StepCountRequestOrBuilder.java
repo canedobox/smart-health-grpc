@@ -24,13 +24,4 @@ public interface StepCountRequestOrBuilder extends
    */
   com.google.protobuf.ByteString
       getUsernameBytes();
-
-  /**
-   * <pre>
-   * Number of steps to increment for the current date.
-   * </pre>
-   *
-   * <code>int32 numberOfSteps = 2;</code>
-   */
-  int getNumberOfSteps();
 }

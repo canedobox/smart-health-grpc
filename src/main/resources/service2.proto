@@ -5,7 +5,7 @@ option java_package = "com.learn.service2";
 option java_outer_classname = "Service2Impl";
 
 service Service2 {
-	// Increment a user's step count (current date) by X step(s).
+	// Increment a user's step count (current date).
     rpc incrementStepCount(stream StepCountRequest) returns (stream StepCountResponse) {}
     
     // Retrieves a user's step count history.
@@ -18,9 +18,6 @@ service Service2 {
 message StepCountRequest {
     // User's username.
     string username = 1;
-    
-    // Number of steps to increment for the current date.
-    int32 numberOfSteps = 2;
 }
 
 message StepCountResponse {

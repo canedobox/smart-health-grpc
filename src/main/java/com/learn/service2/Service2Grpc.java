@@ -152,7 +152,7 @@ public final class Service2Grpc {
 
     /**
      * <pre>
-     * Increment a user's step count (current date) by X step(s).
+     * Increment a user's step count (current date).
      * </pre>
      */
     public io.grpc.stub.StreamObserver<com.learn.service2.StepCountRequest> incrementStepCount(
@@ -227,7 +227,7 @@ public final class Service2Grpc {
 
     /**
      * <pre>
-     * Increment a user's step count (current date) by X step(s).
+     * Increment a user's step count (current date).
      * </pre>
      */
     public io.grpc.stub.StreamObserver<com.learn.service2.StepCountRequest> incrementStepCount(

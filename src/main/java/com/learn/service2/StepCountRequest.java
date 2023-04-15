@@ -17,7 +17,6 @@ private static final long serialVersionUID = 0L;
   }
   private StepCountRequest() {
     username_ = "";
-    numberOfSteps_ = 0;
   }
 
   @java.lang.Override
@@ -48,11 +47,6 @@ private static final long serialVersionUID = 0L;
             java.lang.String s = input.readStringRequireUtf8();
 
             username_ = s;
-            break;
-          }
-          case 16: {
-
-            numberOfSteps_ = input.readInt32();
             break;
           }
           default: {
@@ -129,19 +123,6 @@ private static final long serialVersionUID = 0L;
     }
   }
 
-  public static final int NUMBEROFSTEPS_FIELD_NUMBER = 2;
-  private int numberOfSteps_;
-  /**
-   * <pre>
-   * Number of steps to increment for the current date.
-   * </pre>
-   *
-   * <code>int32 numberOfSteps = 2;</code>
-   */
-  public int getNumberOfSteps() {
-    return numberOfSteps_;
-  }
-
   private byte memoizedIsInitialized = -1;
   @java.lang.Override
   public final boolean isInitialized() {
@@ -159,9 +140,6 @@ private static final long serialVersionUID = 0L;
     if (!getUsernameBytes().isEmpty()) {
       com.google.protobuf.GeneratedMessageV3.writeString(output, 1, username_);
     }
-    if (numberOfSteps_ != 0) {
-      output.writeInt32(2, numberOfSteps_);
-    }
     unknownFields.writeTo(output);
   }
 
@@ -173,10 +151,6 @@ private static final long serialVersionUID = 0L;
     size = 0;
     if (!getUsernameBytes().isEmpty()) {
       size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, username_);
-    }
-    if (numberOfSteps_ != 0) {
-      size += com.google.protobuf.CodedOutputStream
-        .computeInt32Size(2, numberOfSteps_);
     }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
@@ -196,8 +170,6 @@ private static final long serialVersionUID = 0L;
     boolean result = true;
     result = result && getUsername()
         .equals(other.getUsername());
-    result = result && (getNumberOfSteps()
-        == other.getNumberOfSteps());
     result = result && unknownFields.equals(other.unknownFields);
     return result;
   }
@@ -211,8 +183,6 @@ private static final long serialVersionUID = 0L;
     hash = (19 * hash) + getDescriptor().hashCode();
     hash = (37 * hash) + USERNAME_FIELD_NUMBER;
     hash = (53 * hash) + getUsername().hashCode();
-    hash = (37 * hash) + NUMBEROFSTEPS_FIELD_NUMBER;
-    hash = (53 * hash) + getNumberOfSteps();
     hash = (29 * hash) + unknownFields.hashCode();
     memoizedHashCode = hash;
     return hash;
@@ -348,8 +318,6 @@ private static final long serialVersionUID = 0L;
       super.clear();
       username_ = "";
 
-      numberOfSteps_ = 0;
-
       return this;
     }
 
@@ -377,7 +345,6 @@ private static final long serialVersionUID = 0L;
     public com.learn.service2.StepCountRequest buildPartial() {
       com.learn.service2.StepCountRequest result = new com.learn.service2.StepCountRequest(this);
       result.username_ = username_;
-      result.numberOfSteps_ = numberOfSteps_;
       onBuilt();
       return result;
     }
@@ -429,9 +396,6 @@ private static final long serialVersionUID = 0L;
       if (!other.getUsername().isEmpty()) {
         username_ = other.username_;
         onChanged();
-      }
-      if (other.getNumberOfSteps() != 0) {
-        setNumberOfSteps(other.getNumberOfSteps());
       }
       this.mergeUnknownFields(other.unknownFields);
       onChanged();
@@ -547,44 +511,6 @@ private static final long serialVersionUID = 0L;
   checkByteStringIsUtf8(value);
       
       username_ = value;
-      onChanged();
-      return this;
-    }
-
-    private int numberOfSteps_ ;
-    /**
-     * <pre>
-     * Number of steps to increment for the current date.
-     * </pre>
-     *
-     * <code>int32 numberOfSteps = 2;</code>
-     */
-    public int getNumberOfSteps() {
-      return numberOfSteps_;
-    }
-    /**
-     * <pre>
-     * Number of steps to increment for the current date.
-     * </pre>
-     *
-     * <code>int32 numberOfSteps = 2;</code>
-     */
-    public Builder setNumberOfSteps(int value) {
-      
-      numberOfSteps_ = value;
-      onChanged();
-      return this;
-    }
-    /**
-     * <pre>
-     * Number of steps to increment for the current date.
-     * </pre>
-     *
-     * <code>int32 numberOfSteps = 2;</code>
-     */
-    public Builder clearNumberOfSteps() {
-      
-      numberOfSteps_ = 0;
       onChanged();
       return this;
     }
