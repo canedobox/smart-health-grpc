@@ -71,8 +71,6 @@ public class ClientGUI implements ActionListener {
 	
 	// Service info.
 	private ServiceInfo service1Info, service2Info, service3Info;
-	// Service managed channels.
-	private ManagedChannel service1Channel, service2Channel, service3Channel;
 		
 	/************** SERVICE 1 GUI components ***************/
 	
@@ -241,26 +239,14 @@ public class ClientGUI implements ActionListener {
 		System.out.println("Discovering services...");
 		System.out.println("--------------------");
 		
-		// Discover service 1 and build its channel.
+		// Discover service 1.
 		discoverService(getServiceType("service1"), "Service 1", "service1Info");
-		service1Channel = ManagedChannelBuilder
-				.forAddress(service1Info.getHostAddresses()[0], service1Info.getPort())
-				.usePlaintext()
-				.build();
 		
-		// Discover service 2 and build its channel.
+		// Discover service 2.
 		discoverService(getServiceType("service2"), "Service 2", "service2Info");
-		service2Channel = ManagedChannelBuilder
-				.forAddress(service2Info.getHostAddresses()[0], service2Info.getPort())
-				.usePlaintext()
-				.build();
 		
-		// Discover service 3 and build its channel.
+		// Discover service 3.
 		discoverService(getServiceType("service3"), "Service 3", "service3Info");
-		service3Channel = ManagedChannelBuilder
-				.forAddress(service3Info.getHostAddresses()[0], service3Info.getPort())
-				.usePlaintext()
-				.build();
 	}
 	
 	/*******************************************************/
@@ -1009,8 +995,14 @@ public class ClientGUI implements ActionListener {
 		if (label.equals("SAVE")) {
 			System.out.println("Invoking setUserProfile()...");
 			
+			// Build the channel.
+			ManagedChannel channel = ManagedChannelBuilder
+					.forAddress(service1Info.getHostAddresses()[0], service1Info.getPort())
+					.usePlaintext()
+					.build();
+			
 			// Get blocking stubs.
-			Service1Grpc.Service1BlockingStub blockingStub = Service1Grpc.newBlockingStub(service1Channel);
+			Service1Grpc.Service1BlockingStub blockingStub = Service1Grpc.newBlockingStub(channel);
 
 			// Prepare the request.
 			SetUserProfileRequest request = SetUserProfileRequest.newBuilder()
@@ -1054,8 +1046,14 @@ public class ClientGUI implements ActionListener {
 			// Reset getUserProfile panel.
 			resetGetUserProfilePanel();
 			
+			// Build the channel.
+			ManagedChannel channel = ManagedChannelBuilder
+					.forAddress(service1Info.getHostAddresses()[0], service1Info.getPort())
+					.usePlaintext()
+					.build();
+						
 			// Get blocking stubs.
-			Service1Grpc.Service1BlockingStub blockingStub = Service1Grpc.newBlockingStub(service1Channel);
+			Service1Grpc.Service1BlockingStub blockingStub = Service1Grpc.newBlockingStub(channel);
 			
 			// Prepare the request.
 			GetUserProfileRequest request = GetUserProfileRequest.newBuilder()
@@ -1101,8 +1099,14 @@ public class ClientGUI implements ActionListener {
 			// Reset incrementStepCount panel.
 			resetIncrementStepCountPanel();
 			
+			// Build the channel.
+			ManagedChannel channel = ManagedChannelBuilder
+					.forAddress(service2Info.getHostAddresses()[0], service2Info.getPort())
+					.usePlaintext()
+					.build();
+			
 			// Get async stubs.
-			Service2Grpc.Service2Stub asyncStub = Service2Grpc.newStub(service2Channel);
+			Service2Grpc.Service2Stub asyncStub = Service2Grpc.newStub(channel);
 			
 			// Prepare the response stream observer.
 			StreamObserver<StepCountResponse> responseObserver = new StreamObserver<StepCountResponse>() {
@@ -1184,8 +1188,14 @@ public class ClientGUI implements ActionListener {
 			// Reset getStepCountHistory panel.
 			resetGetStepCountHistoryPanel();
 			
+			// Build the channel.
+			ManagedChannel channel = ManagedChannelBuilder
+					.forAddress(service2Info.getHostAddresses()[0], service2Info.getPort())
+					.usePlaintext()
+					.build();
+			
 			// Get blocking stubs.
-			Service2Grpc.Service2BlockingStub blockingStub = Service2Grpc.newBlockingStub(service2Channel);
+			Service2Grpc.Service2BlockingStub blockingStub = Service2Grpc.newBlockingStub(channel);
 			
 			// Prepare the request
 			StepCountHistoryRequest request = StepCountHistoryRequest.newBuilder()
@@ -1238,8 +1248,14 @@ public class ClientGUI implements ActionListener {
 			// Reset calculateStepCountAverage panel.
 			resetCalculateStepCountAveragePanel();
 			
+			// Build the channel.
+			ManagedChannel channel = ManagedChannelBuilder
+					.forAddress(service2Info.getHostAddresses()[0], service2Info.getPort())
+					.usePlaintext()
+					.build();
+			
 			// Get async stubs.
-			Service2Grpc.Service2Stub asyncStub = Service2Grpc.newStub(service2Channel);
+			Service2Grpc.Service2Stub asyncStub = Service2Grpc.newStub(channel);
 			
 			// Prepare the response stream observer.
 			StreamObserver<StepCountAverageResponse> responseObserver = new StreamObserver<StepCountAverageResponse>() {
@@ -1304,8 +1320,14 @@ public class ClientGUI implements ActionListener {
 			// Reset calculateBMI panel.
 			resetCalculateBMIPanel();
 			
+			// Build the channel.
+			ManagedChannel channel = ManagedChannelBuilder
+					.forAddress(service3Info.getHostAddresses()[0], service3Info.getPort())
+					.usePlaintext()
+					.build();
+			
 			// Get blocking stubs.
-			Service3Grpc.Service3BlockingStub blockingStub = Service3Grpc.newBlockingStub(service3Channel);
+			Service3Grpc.Service3BlockingStub blockingStub = Service3Grpc.newBlockingStub(channel);
 
 			// Prepare the request.
 			BMIRequest request = BMIRequest.newBuilder()
@@ -1343,8 +1365,14 @@ public class ClientGUI implements ActionListener {
 			// Reset getWeightLossWeeklyTarget panel.
 			resetGetWeightLossWeeklyTargetPanel();
 			
+			// Build the channel.
+			ManagedChannel channel = ManagedChannelBuilder
+					.forAddress(service3Info.getHostAddresses()[0], service3Info.getPort())
+					.usePlaintext()
+					.build();
+			
 			// Get blocking stubs.
-			Service3Grpc.Service3BlockingStub blockingStub = Service3Grpc.newBlockingStub(service3Channel);
+			Service3Grpc.Service3BlockingStub blockingStub = Service3Grpc.newBlockingStub(channel);
 
 			// Prepare the request.
 			WeightLossWeeklyTargetRequest request = WeightLossWeeklyTargetRequest.newBuilder()
@@ -1397,7 +1425,7 @@ public class ClientGUI implements ActionListener {
 		gui.build();
 
 		// Print message.
-		System.out.println("GUI started.");
+		System.out.println("Client GUI started.");
 		System.out.println("--------------------");
 	}
 }
