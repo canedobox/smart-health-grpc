@@ -48,6 +48,8 @@ import com.learn.service3.Service3Grpc;
 import com.learn.service3.WeightLossWeeklyTargetRequest;
 import com.learn.service3.WeightLossWeeklyTargetResponse;
 
+import io.grpc.Context;
+import io.grpc.Context.CancellableContext;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.StatusRuntimeException;
@@ -66,6 +68,9 @@ public class ClientGUI implements ActionListener {
 	
 	// Deadline for the server response in seconds.
 	private int deadlineSeconds = 10;
+	
+	// Used to cancel request messages.
+	private CancellableContext withCancellation;
 	
 	/***************** SERVICE VARIABLES *******************/
 	
@@ -1014,6 +1019,9 @@ public class ClientGUI implements ActionListener {
 					.setWeightGoal(Double.parseDouble(weightGoalSetUserProfileRequest.getText()))
 					.build();
 
+			// Get current context with cancellation.
+			withCancellation = Context.current().withCancellation();
+			
 			// Try to send the request.
 			try {
 				// Send the request and store the response.
@@ -1033,6 +1041,8 @@ public class ClientGUI implements ActionListener {
 				// Display error message.
 				messageSetUserProfileResponse.setText(setMessageColour(true, error.getMessage()));
 				error.printStackTrace();
+				// Cancel message.
+				withCancellation.cancel(null);
 			}
 			
 			// Shutdown the channel.
@@ -1063,6 +1073,9 @@ public class ClientGUI implements ActionListener {
 					.setUsername(usernameGetUserProfileRequest.getText())
 					.build();
 
+			// Get current context with cancellation.
+			withCancellation = Context.current().withCancellation();
+			
 			// Try to send the request.
 			try {
 				// Send the request and store the response.
@@ -1090,6 +1103,8 @@ public class ClientGUI implements ActionListener {
 				// Display error message.
 				messageGetUserProfileResponse.setText(setMessageColour(true, error.getMessage()));
 				error.printStackTrace();
+				// Cancel message.
+				withCancellation.cancel(null);
 			}
 			
 			// Shutdown the channel.
@@ -1161,12 +1176,20 @@ public class ClientGUI implements ActionListener {
 					channel.shutdown();
 				}
 			};
-
+			
 			// Prepare the request stream observer.
 			StreamObserver<StepCountRequest> requestObserver = asyncStub.withDeadlineAfter(deadlineSeconds, TimeUnit.SECONDS).incrementStepCount(responseObserver);
 
 			// Try to send the request.
 			try {
+				// If number of steps to be incremented is greater than 100.
+				if (Integer.parseInt(numberOfStepsStepCountRequest.getText()) > 100) {
+					// Get current context with cancellation.
+					withCancellation = Context.current().withCancellation();
+					// Throw custom error.
+					throw new Exception("Too many steps... Try lower than 100 steps!");
+				}
+				
 				System.out.println("StepCountRequest; Preparing requests...");
 				
 				// Loop the number of steps to be added.
@@ -1189,10 +1212,20 @@ public class ClientGUI implements ActionListener {
 				// Display error message.
 				messageStepCountResponse.setText(setMessageColour(true, error.getMessage()));
 				error.printStackTrace();
+				// Cancel message.
+				withCancellation.cancel(null);
 			} catch (InterruptedException error) {
 				// Display error message.
 				messageStepCountResponse.setText(setMessageColour(true, error.getMessage()));
 				error.printStackTrace();
+				// Cancel message.
+				withCancellation.cancel(null);
+			} catch (Exception error) {
+				// Display error message.
+				messageStepCountResponse.setText(setMessageColour(true, error.getMessage()));
+				error.printStackTrace();
+				// Cancel message.
+				withCancellation.cancel(null);
 			}
 		}
 		// Get step count history button for the getStepCountHistory method (Service 2). *********************/
@@ -1216,6 +1249,9 @@ public class ClientGUI implements ActionListener {
 					.setUsername(usernameStepCountHistoryRequest.getText())
 					.build();
 
+			// Get current context with cancellation.
+			withCancellation = Context.current().withCancellation();
+			
 			// Try to send the request.
 			try {
 				// Display message.
@@ -1253,6 +1289,8 @@ public class ClientGUI implements ActionListener {
 				// Display error message.
 				messageStepCountHistoryResponse.setText(setMessageColour(true, error.getMessage()));
 				error.printStackTrace();
+				// Cancel message.
+				withCancellation.cancel(null);
 			}
 			
 			// Shutdown the channel.
@@ -1314,6 +1352,9 @@ public class ClientGUI implements ActionListener {
 			// Prepare the request stream observer.
 			StreamObserver<StepCountAverageRequest> requestObserver = asyncStub.withDeadlineAfter(deadlineSeconds, TimeUnit.SECONDS).calculateStepCountAverage(responseObserver);
 
+			// Get current context with cancellation.
+			withCancellation = Context.current().withCancellation();
+			
 			try {
 				System.out.println("StepCountAverageRequest; Preparing requests...");
 				
@@ -1335,10 +1376,14 @@ public class ClientGUI implements ActionListener {
 				// Display error message.
 				messageStepCountAverageResponse.setText(setMessageColour(true, error.getMessage()));
 				error.printStackTrace();
+				// Cancel message.
+				withCancellation.cancel(null);
 			} catch (InterruptedException error) {
 				// Display error message.
 				messageStepCountAverageResponse.setText(setMessageColour(true, error.getMessage()));
 				error.printStackTrace();
+				// Cancel message.
+				withCancellation.cancel(null);
 			}
 		}
 		// Calculate BMI button for calculateBMI the method (Service 3). *********************/
@@ -1363,6 +1408,9 @@ public class ClientGUI implements ActionListener {
 					.setWeight(Double.parseDouble(weightBMIRequest.getText()))
 					.build();
 
+			// Get current context with cancellation.
+			withCancellation = Context.current().withCancellation();
+			
 			// Try to send the request.
 			try {
 				// Send the request and store the response.
@@ -1380,6 +1428,8 @@ public class ClientGUI implements ActionListener {
 				// Display error message.
 				messageBMIResponse.setText(setMessageColour(true, error.getMessage()));
 				error.printStackTrace();
+				// Cancel message.
+				withCancellation.cancel(null);
 			}
 			
 			// Shutdown the channel.
@@ -1412,6 +1462,9 @@ public class ClientGUI implements ActionListener {
 					.setNumberOfWeeks(Integer.parseInt(numberOfWeeksWeightLossWeeklyTargetRequest.getText()))
 					.build();
 
+			// Get current context with cancellation.
+			withCancellation = Context.current().withCancellation();
+			
 			// Try to send the request.
 			try {
 				// Send the request and store the response.
@@ -1428,6 +1481,8 @@ public class ClientGUI implements ActionListener {
 				// Display error message.
 				messageWeightLossWeeklyTargetResponse.setText(setMessageColour(true, error.getMessage()));
 				error.printStackTrace();
+				// Cancel message.
+				withCancellation.cancel(null);
 			}
 			
 			// Shutdown the channel.
