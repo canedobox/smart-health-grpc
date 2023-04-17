@@ -1,10 +1,17 @@
 package com.learn.service2;
 
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.InetAddress;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 import java.util.TreeMap;
+
+import javax.jmdns.JmDNS;
+import javax.jmdns.ServiceInfo;
 
 import com.learn.service2.Service2Grpc.Service2ImplBase;
 
@@ -181,6 +188,77 @@ public class Service2Server extends Service2ImplBase {
 	}
 	
 	/**
+	 * Get service 2 properties.
+	 * 
+	 * @return Properties
+	 */
+	private Properties getProperties() {
+		Properties properties = null;
+
+		// Try get the properties.
+		try (InputStream input = new FileInputStream("src/main/resources/service2.properties")) {
+			// Load the service properties file.
+			properties = new Properties();
+			properties.load(input);
+
+			// Print service properties values.
+			System.out.println("Service 2 properties:");
+			System.out.println("- service_type: " + properties.getProperty("service_type"));
+			System.out.println("- service_name: " + properties.getProperty("service_name"));
+			System.out.println("- service_description: " + properties.getProperty("service_description"));
+			System.out.println("- service_port: " + properties.getProperty("service_port"));
+		}
+		// If any errors.
+		catch (IOException e) {
+			// Print error message.
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+		}
+
+		return properties;
+	}
+
+	/**
+	 * Register jmDNS service.
+	 * 
+	 * @param properties Service properties.
+	 */
+	private void registerService(Properties properties) {
+		// Try to register the jmDNS service.
+		try {
+			// Create a JmDNS instance.
+			JmDNS jmdns = JmDNS.create(InetAddress.getLocalHost());
+
+			// Get service properties.
+			String service_type = properties.getProperty("service_type");
+			String service_name = properties.getProperty("service_name");
+			int service_port = Integer.valueOf(properties.getProperty("service_port"));
+			String service_description = properties.getProperty("service_description");
+
+			// Register the service.
+			ServiceInfo serviceInfo = ServiceInfo.create(service_type, service_name, service_port, service_description);
+			jmdns.registerService(serviceInfo);
+
+			// Print message.
+			System.out.println("Registering service with type '" + service_type + "' and name '" + service_name + "'...");
+
+			// Wait a bit before continuing.
+			Thread.sleep(500);
+		}
+		// If any errors.
+		catch (IOException e) {
+			// Print error message.
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			// Print error message.
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+		}
+
+	}
+	
+	/**
 	 * Main method.
 	 * 
 	 * @param args
@@ -190,8 +268,15 @@ public class Service2Server extends Service2ImplBase {
 	public static void main(String[] args) throws IOException, InterruptedException {
 		// Set the service 2 server.
 		Service2Server service2Server = new Service2Server();
+		
+		// Get the service properties.
+		Properties properties = service2Server.getProperties();
+		// Register the jmDNS service.
+		service2Server.registerService(properties);
+				
 		// Set the port to be used by the service.
-		int port = 50052;
+		int port = Integer.valueOf(properties.getProperty("service_port"));
+		
 		// Build the server.
 		Server server = ServerBuilder.forPort(port).addService(service2Server).build().start();
 

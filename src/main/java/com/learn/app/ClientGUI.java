@@ -6,9 +6,19 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.Iterator;
+import java.util.Properties;
 import java.util.Random;
 
+import javax.jmdns.JmDNS;
+import javax.jmdns.ServiceEvent;
+import javax.jmdns.ServiceInfo;
+import javax.jmdns.ServiceListener;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -48,7 +58,20 @@ import io.grpc.stub.StreamObserver;
  * @author canedobox
  */
 public class ClientGUI implements ActionListener {
-	/* SERVICE 1 GUI components */
+	
+	/*******************************************************/
+	/*                      VARIABLES                      */
+	/*******************************************************/
+	
+	/***************** SERVICE VARIABLES *******************/
+	
+	// Service info.
+	private ServiceInfo service1Info, service2Info, service3Info;
+	// Service managed channels.
+	private ManagedChannel service1Channel, service2Channel, service3Channel;
+		
+	/************** SERVICE 1 GUI components ***************/
+	
 	// JTextFields used for setUserProfile() request.
 	private JTextField usernameSetUserProfileRequest,
 			nameSetUserProfileRequest, 
@@ -69,7 +92,8 @@ public class ClientGUI implements ActionListener {
 	weightGoalGetUserProfileResponse,
 	messageGetUserProfileResponse;
 	
-	/* SERVICE 2 GUI components */
+	/************** SERVICE 2 GUI components ***************/
+	
 	// JTextFields used for incrementStepCount() request.
 	private JTextField usernameStepCountRequest, numberOfStepsStepCountRequest;
 	// JLabel used for incrementStepCount() response.
@@ -85,7 +109,8 @@ public class ClientGUI implements ActionListener {
 	// JLabel used for calculateStepCountAverage() response.
 	private JLabel averageStepCountStepCountAverageResponse, messageStepCountAverageResponse;
 	
-	/* SERVICE 3 GUI components */
+	/************** SERVICE 3 GUI components ***************/
+	
 	// JTextFields used for calculateBMI() request.
 	private JTextField heightBMIRequest, weightBMIRequest;
 	// JLabel used for calculateBMI() response.
@@ -95,7 +120,149 @@ public class ClientGUI implements ActionListener {
 	private JTextField currentWeightWeightLossWeeklyTargetRequest, weightGoalWeightLossWeeklyTargetRequest, numberOfWeeksWeightLossWeeklyTargetRequest;
 	// JLabel used for getWeightLossWeeklyTarget() response.
 	private JLabel weightLossWeeklyTargetWeightLossWeeklyTargetResponse, messageWeightLossWeeklyTargetResponse;
+	
+	/*******************************************************/
+	/*               JMDNS DISCOVERY METHODS               */
+	/*******************************************************/
+	
+	/**
+	 * Get service_type from the service properties.
+	 * 
+	 * @param fileName Service file name.
+	 * @return String
+	 */
+	private String getServiceType(String fileName) {
+		String serviceType = null;
 
+		// Try get the service type.
+		try (InputStream input = new FileInputStream("src/main/resources/" + fileName + ".properties")) {
+			// Load the service properties file.
+			Properties properties = new Properties();
+			properties.load(input);
+
+			// Get the service type.
+			serviceType = properties.getProperty("service_type");
+		}
+		// If any errors.
+		catch (IOException e) {
+			// Print error message.
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+		}
+
+		return serviceType;
+	}
+	
+	/**
+	 * Discover jmDNS service.
+	 * 
+	 * @param serviceType Service type to be discovered.
+	 * @param serviceName Service name to be display on messages.
+	 * @param serviceInfoName ServiceInfo variable name.
+	 */
+	private void discoverService(String serviceType, String serviceName, String serviceInfoName) {
+		// Try to discover the jmDNS service.
+		try {
+			// Create a JmDNS instance.
+			JmDNS jmdns = JmDNS.create(InetAddress.getLocalHost());
+			// Add listener to the service.
+			jmdns.addServiceListener(serviceType, new ServiceListener() {
+				@Override
+				public void serviceResolved(ServiceEvent event) {
+					// Print message.
+					System.out.println(serviceName + " resolved: " + event.getInfo());
+
+					// Get the service info.
+					ServiceInfo serviceInfo = event.getInfo();
+					
+					// Stores the service info into the right variable.
+					if (serviceInfoName == "service1Info") {
+						service1Info = serviceInfo;
+					} else if (serviceInfoName == "service2Info") {
+						service2Info = serviceInfo;
+					} else if (serviceInfoName == "service3Info") {
+						service3Info = serviceInfo;
+					}
+
+					// Print service properties values.
+					System.out.println("Resolving " + serviceType + " with properties:");
+					System.out.println("- type:" + event.getType());
+					System.out.println("- name: " + event.getName());
+					System.out.println("- description: " + serviceInfo.getNiceTextString());
+					System.out.println("- host: " + serviceInfo.getHostAddresses()[0]);
+					System.out.println("- port: " + serviceInfo.getPort());
+					System.out.println("--------------------");
+				}
+
+				@Override
+				public void serviceRemoved(ServiceEvent event) {
+					// Print message.
+					System.out.println(serviceName + " removed: " + event.getInfo());
+				}
+
+				@Override
+				public void serviceAdded(ServiceEvent event) {
+					// Print message.
+					System.out.println(serviceName + " added: " + event.getInfo());
+				}
+			});
+
+			// Wait a bit before continuing.
+			Thread.sleep(500);
+
+			// Close jmDNS.
+			jmdns.close();
+		} 
+		// If any errors.
+		catch (UnknownHostException e) {
+			// Print error message.
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+		} catch (IOException e) {
+			// Print error message.
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			// Print error message.
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Discover all the jmDNS services.
+	 */
+	private void discoverServices() {
+		// Print message.
+		System.out.println("Discovering services...");
+		System.out.println("--------------------");
+		
+		// Discover service 1 and build its channel.
+		discoverService(getServiceType("service1"), "Service 1", "service1Info");
+		service1Channel = ManagedChannelBuilder
+				.forAddress(service1Info.getHostAddresses()[0], service1Info.getPort())
+				.usePlaintext()
+				.build();
+		
+		// Discover service 2 and build its channel.
+		discoverService(getServiceType("service2"), "Service 2", "service2Info");
+		service2Channel = ManagedChannelBuilder
+				.forAddress(service2Info.getHostAddresses()[0], service2Info.getPort())
+				.usePlaintext()
+				.build();
+		
+		// Discover service 3 and build its channel.
+		discoverService(getServiceType("service3"), "Service 3", "service3Info");
+		service3Channel = ManagedChannelBuilder
+				.forAddress(service3Info.getHostAddresses()[0], service3Info.getPort())
+				.usePlaintext()
+				.build();
+	}
+	
+	/*******************************************************/
+	/*                     GUI METHODS                     */
+	/*******************************************************/
+	
 	/**
 	 * Created a tab navigation menu to switch between services.
 	 * 
@@ -821,6 +988,10 @@ public class ClientGUI implements ActionListener {
 		return "<html><font color='green'>" + message + "</font></html>";
 	}
 
+	/*******************************************************/
+	/*               ACTION LISTINER METHOD                */
+	/*******************************************************/
+	
 	/**
 	 * Listen to button action events.
 	 */
@@ -834,10 +1005,8 @@ public class ClientGUI implements ActionListener {
 		if (label.equals("SAVE")) {
 			System.out.println("Invoking setUserProfile()...");
 			
-			// Build the channel.
-			ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 50051).usePlaintext().build();
 			// Get blocking stubs.
-			Service1Grpc.Service1BlockingStub blockingStub = Service1Grpc.newBlockingStub(channel);
+			Service1Grpc.Service1BlockingStub blockingStub = Service1Grpc.newBlockingStub(service1Channel);
 
 			// Prepare the request.
 			SetUserProfileRequest request = SetUserProfileRequest.newBuilder()
@@ -863,7 +1032,7 @@ public class ClientGUI implements ActionListener {
 				// Display success message.
 				messageSetUserProfileResponse.setText(setMessageColour(false, String.valueOf(response.getMessage())));
 			}
-			// If an errors.
+			// If any errors.
 			catch (StatusRuntimeException error) {
 				// Display error message.
 				messageSetUserProfileResponse.setText(setMessageColour(true, error.getMessage()));
@@ -881,10 +1050,8 @@ public class ClientGUI implements ActionListener {
 			// Reset getUserProfile panel.
 			resetGetUserProfilePanel();
 			
-			// Build the channel.
-			ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 50051).usePlaintext().build();
 			// Get blocking stubs.
-			Service1Grpc.Service1BlockingStub blockingStub = Service1Grpc.newBlockingStub(channel);
+			Service1Grpc.Service1BlockingStub blockingStub = Service1Grpc.newBlockingStub(service1Channel);
 			
 			// Prepare the request.
 			GetUserProfileRequest request = GetUserProfileRequest.newBuilder()
@@ -913,7 +1080,7 @@ public class ClientGUI implements ActionListener {
 					System.out.println("getUserProfile(); Response: " + response);
 				}
 			}
-			// If an errors.
+			// If any errors.
 			catch (StatusRuntimeException error) {
 				// Display error message.
 				messageGetUserProfileResponse.setText(setMessageColour(true, error.getMessage()));
@@ -930,10 +1097,8 @@ public class ClientGUI implements ActionListener {
 			// Reset incrementStepCount panel.
 			resetIncrementStepCountPanel();
 			
-			// Build the channel.
-			ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 50052).usePlaintext().build();
 			// Get async stubs.
-			Service2Grpc.Service2Stub asyncStub = Service2Grpc.newStub(channel);
+			Service2Grpc.Service2Stub asyncStub = Service2Grpc.newStub(service2Channel);
 			
 			// Prepare the response stream observer.
 			StreamObserver<StepCountResponse> responseObserver = new StreamObserver<StepCountResponse>() {
@@ -1015,10 +1180,8 @@ public class ClientGUI implements ActionListener {
 			// Reset getStepCountHistory panel.
 			resetGetStepCountHistoryPanel();
 			
-			// Build the channel.
-			ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 50052).usePlaintext().build();
 			// Get blocking stubs.
-			Service2Grpc.Service2BlockingStub blockingStub = Service2Grpc.newBlockingStub(channel);
+			Service2Grpc.Service2BlockingStub blockingStub = Service2Grpc.newBlockingStub(service2Channel);
 			
 			// Prepare the request
 			StepCountHistoryRequest request = StepCountHistoryRequest.newBuilder()
@@ -1071,10 +1234,8 @@ public class ClientGUI implements ActionListener {
 			// Reset calculateStepCountAverage panel.
 			resetCalculateStepCountAveragePanel();
 			
-			// Build the channel.
-			ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 50052).usePlaintext().build();
 			// Get async stubs.
-			Service2Grpc.Service2Stub asyncStub = Service2Grpc.newStub(channel);
+			Service2Grpc.Service2Stub asyncStub = Service2Grpc.newStub(service2Channel);
 			
 			// Prepare the response stream observer.
 			StreamObserver<StepCountAverageResponse> responseObserver = new StreamObserver<StepCountAverageResponse>() {
@@ -1139,10 +1300,8 @@ public class ClientGUI implements ActionListener {
 			// Reset calculateBMI panel.
 			resetCalculateBMIPanel();
 			
-			// Build the channel.
-			ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 50053).usePlaintext().build();
 			// Get blocking stubs.
-			Service3Grpc.Service3BlockingStub blockingStub = Service3Grpc.newBlockingStub(channel);
+			Service3Grpc.Service3BlockingStub blockingStub = Service3Grpc.newBlockingStub(service3Channel);
 
 			// Prepare the request.
 			BMIRequest request = BMIRequest.newBuilder()
@@ -1162,7 +1321,7 @@ public class ClientGUI implements ActionListener {
 				bmiBMIResponse.setText("BMI: " + response.getBmi());
 				categoryBMIResponse.setText("Category: " + response.getCategory());
 			}
-			// If an errors.
+			// If any errors.
 			catch (StatusRuntimeException error) {
 				// Display error message.
 				messageBMIResponse.setText(setMessageColour(true, error.getMessage()));
@@ -1180,10 +1339,8 @@ public class ClientGUI implements ActionListener {
 			// Reset getWeightLossWeeklyTarget panel.
 			resetGetWeightLossWeeklyTargetPanel();
 			
-			// Build the channel.
-			ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 50053).usePlaintext().build();
 			// Get blocking stubs.
-			Service3Grpc.Service3BlockingStub blockingStub = Service3Grpc.newBlockingStub(channel);
+			Service3Grpc.Service3BlockingStub blockingStub = Service3Grpc.newBlockingStub(service3Channel);
 
 			// Prepare the request.
 			WeightLossWeeklyTargetRequest request = WeightLossWeeklyTargetRequest.newBuilder()
@@ -1203,7 +1360,7 @@ public class ClientGUI implements ActionListener {
 				// Display weight loss weekly target.
 				weightLossWeeklyTargetWeightLossWeeklyTargetResponse.setText("Weight Loss Weekly Target (kg): " + response.getWeightLossWeeklyTarget());
 			}
-			// If an errors.
+			// If any errors.
 			catch (StatusRuntimeException error) {
 				// Display error message.
 				messageWeightLossWeeklyTargetResponse.setText(setMessageColour(true, error.getMessage()));
@@ -1217,6 +1374,10 @@ public class ClientGUI implements ActionListener {
 
 	}
 	
+	/*******************************************************/
+	/*                     MAIN METHOD                     */
+	/*******************************************************/
+	
 	/**
 	 * Main method.
 	 * 
@@ -1224,7 +1385,10 @@ public class ClientGUI implements ActionListener {
 	 */
 	public static void main(String[] args) {
 		ClientGUI gui = new ClientGUI();
-
+		
+		// Discover all services.
+		gui.discoverServices();
+		
 		// Build the GUI.
 		gui.build();
 

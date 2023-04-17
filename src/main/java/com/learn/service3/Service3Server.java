@@ -1,6 +1,13 @@
 package com.learn.service3;
 
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.InetAddress;
+import java.util.Properties;
+
+import javax.jmdns.JmDNS;
+import javax.jmdns.ServiceInfo;
 
 import com.learn.service3.Service3Grpc.Service3ImplBase;
 
@@ -77,6 +84,77 @@ public class Service3Server extends Service3ImplBase {
 	}
 	
 	/**
+	 * Get service 3 properties.
+	 * 
+	 * @return Properties
+	 */
+	private Properties getProperties() {
+		Properties properties = null;
+
+		// Try get the properties.
+		try (InputStream input = new FileInputStream("src/main/resources/service3.properties")) {
+			// Load the service properties file.
+			properties = new Properties();
+			properties.load(input);
+
+			// Print service properties values.
+			System.out.println("Service 3 properties:");
+			System.out.println("- service_type: " + properties.getProperty("service_type"));
+			System.out.println("- service_name: " + properties.getProperty("service_name"));
+			System.out.println("- service_description: " + properties.getProperty("service_description"));
+			System.out.println("- service_port: " + properties.getProperty("service_port"));
+		}
+		// If any errors.
+		catch (IOException e) {
+			// Print error message.
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+		}
+
+		return properties;
+	}
+
+	/**
+	 * Register jmDNS service.
+	 * 
+	 * @param properties Service properties.
+	 */
+	private void registerService(Properties properties) {
+		// Try to register the jmDNS service.
+		try {
+			// Create a JmDNS instance.
+			JmDNS jmdns = JmDNS.create(InetAddress.getLocalHost());
+
+			// Get service properties.
+			String service_type = properties.getProperty("service_type");
+			String service_name = properties.getProperty("service_name");
+			int service_port = Integer.valueOf(properties.getProperty("service_port"));
+			String service_description = properties.getProperty("service_description");
+
+			// Register the service.
+			ServiceInfo serviceInfo = ServiceInfo.create(service_type, service_name, service_port, service_description);
+			jmdns.registerService(serviceInfo);
+
+			// Print message.
+			System.out.println("Registering service with type '" + service_type + "' and name '" + service_name + "'...");
+
+			// Wait a bit before continuing.
+			Thread.sleep(500);
+		}
+		// If any errors.
+		catch (IOException e) {
+			// Print error message.
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			// Print error message.
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+		}
+
+	}
+	
+	/**
 	 * Main method.
 	 * 
 	 * @param args
@@ -86,8 +164,15 @@ public class Service3Server extends Service3ImplBase {
 	public static void main(String[] args) throws IOException, InterruptedException {
 		// Set the service 3 server.
 		Service3Server service3Server = new Service3Server();
+		
+		// Get the service properties.
+		Properties properties = service3Server.getProperties();
+		// Register the jmDNS service.
+		service3Server.registerService(properties);
+				
 		// Set the port to be used by the service.
-		int port = 50053;
+		int port = Integer.valueOf(properties.getProperty("service_port"));
+		
 		// Build the server.
 		Server server = ServerBuilder.forPort(port).addService(service3Server).build().start();
 
