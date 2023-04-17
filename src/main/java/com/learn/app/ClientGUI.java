@@ -14,6 +14,7 @@ import java.net.UnknownHostException;
 import java.util.Iterator;
 import java.util.Properties;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 import javax.jmdns.JmDNS;
 import javax.jmdns.ServiceEvent;
@@ -62,6 +63,9 @@ public class ClientGUI implements ActionListener {
 	/*******************************************************/
 	/*                      VARIABLES                      */
 	/*******************************************************/
+	
+	// Deadline for the server response in seconds.
+	private int deadlineSeconds = 10;
 	
 	/***************** SERVICE VARIABLES *******************/
 	
@@ -1001,7 +1005,7 @@ public class ClientGUI implements ActionListener {
 		JButton button = (JButton) e.getSource();
 		String label = button.getActionCommand();
 
-		// Save button for setUserProfile the method (Service 1).
+		// Save button for setUserProfile the method (Service 1). *********************/
 		if (label.equals("SAVE")) {
 			System.out.println("Invoking setUserProfile()...");
 			
@@ -1021,7 +1025,7 @@ public class ClientGUI implements ActionListener {
 			// Try to send the request.
 			try {
 				// Send the request and store the response.
-				SetUserProfileResponse response = blockingStub.setUserProfile(request);
+				SetUserProfileResponse response = blockingStub.withDeadlineAfter(deadlineSeconds, TimeUnit.SECONDS).setUserProfile(request);
 				
 				// Print response on console.
 				System.out.println("setUserProfile(); Response: " + response.getMessage());
@@ -1043,7 +1047,7 @@ public class ClientGUI implements ActionListener {
 			System.out.println("--------------------");
 
 		}
-		// Search button for the getUserProfile method (Service 1).
+		// Search button for the getUserProfile method (Service 1). *********************/
 		else if (label.equals("SEARCH")) {
 			System.out.println("Invoking getUserProfile()...");
 			
@@ -1061,7 +1065,7 @@ public class ClientGUI implements ActionListener {
 			// Try to send the request.
 			try {
 				// Send the request and store the response.
-				GetUserProfileResponse response = blockingStub.getUserProfile(request);
+				GetUserProfileResponse response = blockingStub.withDeadlineAfter(deadlineSeconds, TimeUnit.SECONDS).getUserProfile(request);
 				
 				// If the response is empty.
 				if(response.equals(GetUserProfileResponse.newBuilder().build()) || response == null) {
@@ -1090,7 +1094,7 @@ public class ClientGUI implements ActionListener {
 			// Print a divider between requests.
 			System.out.println("--------------------");
 		}
-		// Add steps button for the incrementStepCount method (Service 2).
+		// Add steps button for the incrementStepCount method (Service 2). *********************/
 		else if (label.equals("ADD STEPS")) {
 			System.out.println("Invoking incrementStepCount()...");
 			
@@ -1141,7 +1145,7 @@ public class ClientGUI implements ActionListener {
 			};
 
 			// Prepare the request stream observer.
-			StreamObserver<StepCountRequest> requestObserver = asyncStub.incrementStepCount(responseObserver);
+			StreamObserver<StepCountRequest> requestObserver = asyncStub.withDeadlineAfter(deadlineSeconds, TimeUnit.SECONDS).incrementStepCount(responseObserver);
 
 			// Try to send the request.
 			try {
@@ -1173,7 +1177,7 @@ public class ClientGUI implements ActionListener {
 				error.printStackTrace();
 			}
 		}
-		// Get step count history button for the getStepCountHistory method (Service 2).
+		// Get step count history button for the getStepCountHistory method (Service 2). *********************/
 		else if (label.equals("GET HISTORY")) {
 			System.out.println("Invoking getStepCountHistory()...");
 			
@@ -1194,7 +1198,7 @@ public class ClientGUI implements ActionListener {
 				System.out.println("getStepCountHistory(); Response (Date: stepCount): ");
 				
 				// Send the request and store the responses.
-				Iterator<StepCountHistoryResponse> response = blockingStub.getStepCountHistory(request);
+				Iterator<StepCountHistoryResponse> response = blockingStub.withDeadlineAfter(deadlineSeconds, TimeUnit.SECONDS).getStepCountHistory(request);
 				
 				// Label for stepCountHistoryResponse.
 				String stepCountHistoryLabel = "<html>";
@@ -1227,7 +1231,7 @@ public class ClientGUI implements ActionListener {
 				error.printStackTrace();
 			}
 		}
-		// Calculate step count average button for the calculateStepCountAverage method (Service 2).
+		// Calculate step count average button for the calculateStepCountAverage method (Service 2). *********************/
 		else if (label.equals("CALCULATE AVERAGE")) {
 			System.out.println("Invoking calculateStepCountAverage()...");
 			
@@ -1264,7 +1268,7 @@ public class ClientGUI implements ActionListener {
 			};
 
 			// Prepare the request stream observer.
-			StreamObserver<StepCountAverageRequest> requestObserver = asyncStub.calculateStepCountAverage(responseObserver);
+			StreamObserver<StepCountAverageRequest> requestObserver = asyncStub.withDeadlineAfter(deadlineSeconds, TimeUnit.SECONDS).calculateStepCountAverage(responseObserver);
 
 			try {
 				System.out.println("StepCountAverageRequest; Preparing requests...");
@@ -1293,7 +1297,7 @@ public class ClientGUI implements ActionListener {
 				error.printStackTrace();
 			}
 		}
-		// Calculate BMI button for calculateBMI the method (Service 3).
+		// Calculate BMI button for calculateBMI the method (Service 3). *********************/
 		else if (label.equals("CALCULATE BMI")) {
 			System.out.println("Invoking calculateBMI()...");
 			
@@ -1312,7 +1316,7 @@ public class ClientGUI implements ActionListener {
 			// Try to send the request.
 			try {
 				// Send the request and store the response.
-				BMIResponse response = blockingStub.calculateBMI(request);
+				BMIResponse response = blockingStub.withDeadlineAfter(deadlineSeconds, TimeUnit.SECONDS).calculateBMI(request);
 				
 				// Print response on console.
 				System.out.println("calculateBMI(); Response: " + response);
@@ -1332,7 +1336,7 @@ public class ClientGUI implements ActionListener {
 			System.out.println("--------------------");
 
 		}
-		// Get weight loss weekly target button for getWeightLossWeeklyTarget the method (Service 3).
+		// Get weight loss weekly target button for getWeightLossWeeklyTarget the method (Service 3). *********************/
 		else if (label.equals("GET WEEKLY TARGET")) {
 			System.out.println("Invoking getWeightLossWeeklyTarget()...");
 			
@@ -1352,7 +1356,7 @@ public class ClientGUI implements ActionListener {
 			// Try to send the request.
 			try {
 				// Send the request and store the response.
-				WeightLossWeeklyTargetResponse response = blockingStub.getWeightLossWeeklyTarget(request);
+				WeightLossWeeklyTargetResponse response = blockingStub.withDeadlineAfter(deadlineSeconds, TimeUnit.SECONDS).getWeightLossWeeklyTarget(request);
 				
 				// Print response on console.
 				System.out.println("getWeightLossWeeklyTarget(); Response: " + response);
