@@ -1035,6 +1035,9 @@ public class ClientGUI implements ActionListener {
 				error.printStackTrace();
 			}
 			
+			// Shutdown the channel.
+			channel.shutdown();
+			
 			// Print a divider between requests.
 			System.out.println("--------------------");
 
@@ -1089,6 +1092,9 @@ public class ClientGUI implements ActionListener {
 				error.printStackTrace();
 			}
 			
+			// Shutdown the channel.
+			channel.shutdown();
+			
 			// Print a divider between requests.
 			System.out.println("--------------------");
 		}
@@ -1135,6 +1141,11 @@ public class ClientGUI implements ActionListener {
 					/// Print error message.
 					messageStepCountResponse.setText(setMessageColour(true, t.getMessage()));
 					t.printStackTrace();
+					// Print a divider between requests.
+					System.out.println("--------------------");
+					
+					// Shutdown the channel.
+					channel.shutdown();
 				}
 
 				@Override
@@ -1145,6 +1156,9 @@ public class ClientGUI implements ActionListener {
 					System.out.println("incrementStepCount(); Completed!");
 					// Print a divider between requests.
 					System.out.println("--------------------");
+					
+					// Shutdown the channel.
+					channel.shutdown();
 				}
 			};
 
@@ -1240,6 +1254,12 @@ public class ClientGUI implements ActionListener {
 				messageStepCountHistoryResponse.setText(setMessageColour(true, error.getMessage()));
 				error.printStackTrace();
 			}
+			
+			// Shutdown the channel.
+			channel.shutdown();
+			
+			// Print a divider between requests.
+			System.out.println("--------------------");
 		}
 		// Calculate step count average button for the calculateStepCountAverage method (Service 2). *********************/
 		else if (label.equals("CALCULATE AVERAGE")) {
@@ -1272,6 +1292,11 @@ public class ClientGUI implements ActionListener {
 					/// Print error message.
 					messageStepCountAverageResponse.setText(setMessageColour(true, t.getMessage()));
 					t.printStackTrace();
+					// Print a divider between requests.
+					System.out.println("--------------------");
+					
+					// Shutdown the channel.
+					channel.shutdown();
 				}
 
 				@Override
@@ -1280,6 +1305,9 @@ public class ClientGUI implements ActionListener {
 					System.out.println("getStepCountHistory(); Completed!");
 					// Print a divider between requests.
 					System.out.println("--------------------");
+					
+					// Shutdown the channel.
+					channel.shutdown();
 				}
 			};
 
@@ -1354,6 +1382,9 @@ public class ClientGUI implements ActionListener {
 				error.printStackTrace();
 			}
 			
+			// Shutdown the channel.
+			channel.shutdown();
+			
 			// Print a divider between requests.
 			System.out.println("--------------------");
 
@@ -1398,6 +1429,9 @@ public class ClientGUI implements ActionListener {
 				messageWeightLossWeeklyTargetResponse.setText(setMessageColour(true, error.getMessage()));
 				error.printStackTrace();
 			}
+			
+			// Shutdown the channel.
+			channel.shutdown();
 			
 			// Print a divider between requests.
 			System.out.println("--------------------");
